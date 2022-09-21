@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data;
+using System.Data.SqlClient;
+using System.Data.SqlTypes;
 
 namespace University_ModernProgrammingTechnologies_Lab1
 {
@@ -70,6 +73,11 @@ namespace University_ModernProgrammingTechnologies_Lab1
             {
                 MessageBox.Show(ELEMENT_EXIST_MESSAGE);
             }
+        }
+
+        public void BuildBinaryTreeFromDBTable(SqlConnection connection, string tableName)
+        {
+
         }
     }
 }
