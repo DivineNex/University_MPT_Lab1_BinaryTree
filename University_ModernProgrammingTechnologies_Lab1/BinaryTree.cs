@@ -7,19 +7,19 @@ using System.Windows.Forms;
 
 namespace University_ModernProgrammingTechnologies_Lab1
 {
-    internal abstract class BinaryTree
+    internal abstract class BinaryTree<T>
     {
         private protected const string ELEMENT_EXIST_MESSAGE = "The element has already in the tree";
-        private protected abstract BinaryTreeItem _root { get; set; }
+        private protected abstract BinaryTreeItem<T> _rootItem { get; set; }
 
         public BinaryTree()
         {
-            _root = null;
+            _rootItem = null;
         }
 
-        public abstract void Insert();
+        public abstract void Insert(T item);
 
-        private protected abstract void _Insert();
+        private protected abstract void _Insert(BinaryTreeItem<T> currentItem, BinaryTreeItem<T> newItem);
 
         public abstract void Remove();
 

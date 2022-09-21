@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace University_ModernProgrammingTechnologies_Lab1
 {
-    internal class BinaryTreeItem
+    internal class BinaryTreeItem<T>
     {
-        public RadialBearing Bearing { get; private set; }
-        public BinaryTreeItem LeftItem { get; set; }
-        public BinaryTreeItem RightItem { get; set; }
+        public T Item { get; private set; }
+        public BinaryTreeItem<T> LeftItem { get; set; }
+        public BinaryTreeItem<T> RightItem { get; set; }
 
-        public BinaryTreeItem(RadialBearing radialBearing)
+        public BinaryTreeItem(T item)
         {
-            Bearing = radialBearing;
+            Item = item;
             LeftItem = null;
             RightItem = null;
         }
