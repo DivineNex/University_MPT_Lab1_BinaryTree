@@ -12,6 +12,8 @@ namespace University_ModernProgrammingTechnologies_Lab1
 {
     public partial class formMain : Form
     {
+        private DBManager dBManager;
+
         public formMain()
         {
             InitializeComponent();
@@ -19,7 +21,13 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         private void formMain_Load(object sender, EventArgs e)
         {
-            DBManager dBManager = new DBManager();
+            InitDBManager();
+        }
+
+        private void InitDBManager()
+        {
+            dBManager = new DBManager();
+            dBManager.OpenConnection();
         }
     }
 }

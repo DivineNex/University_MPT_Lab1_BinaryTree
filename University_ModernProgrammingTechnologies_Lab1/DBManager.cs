@@ -12,7 +12,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
 {
     internal class DBManager
     {
-        private SqlConnection _connection;
+        private SqlConnection _connection = null;
 
         public DBManager()
         {
