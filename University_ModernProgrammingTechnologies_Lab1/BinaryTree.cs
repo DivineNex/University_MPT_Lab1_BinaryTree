@@ -27,24 +27,24 @@ namespace University_ModernProgrammingTechnologies_Lab1
                 return;
             }
 
-            InsertItem(_rootBearing, binaryTreeItem);
+            _Insert(_rootBearing, binaryTreeItem);
         }
 
-        private void InsertItem(BinaryTreeItem currentItem, BinaryTreeItem newItem)
+        private void _Insert(BinaryTreeItem currentItem, BinaryTreeItem newItem)
         {
             if (newItem.Bearing.C < currentItem.Bearing.C)
             {
                 if (currentItem.LeftItem == null)
                     currentItem.LeftItem = newItem;
                 else
-                    InsertItem(currentItem.LeftItem, newItem);
+                    _Insert(currentItem.LeftItem, newItem);
             }
             else if (newItem.Bearing.C > currentItem.Bearing.C)
             {
                 if (currentItem.RightItem == null)
                     currentItem.RightItem = newItem;
                 else
-                    InsertItem(currentItem.RightItem, newItem);
+                    _Insert(currentItem.RightItem, newItem);
             }
             else
             {

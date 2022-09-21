@@ -16,5 +16,10 @@ namespace University_ModernProgrammingTechnologies_Lab1
         {
             InitializeComponent();
         }
+
+        private void formMain_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

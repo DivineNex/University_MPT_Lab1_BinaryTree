@@ -44,9 +44,6 @@
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
             // 
-            // splitContainer1.Panel1
-            // 
-            // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.pictureBox1);
@@ -71,6 +68,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Name = "formMain";
             this.Text = "Lab1";
+            this.Load += new System.EventHandler(this.formMain_Load);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
