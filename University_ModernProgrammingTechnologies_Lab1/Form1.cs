@@ -19,7 +19,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         private void formMain_Load(object sender, EventArgs e)
         {
-
+            DBManager dBManager = new DBManager();
         }
     }
 }
