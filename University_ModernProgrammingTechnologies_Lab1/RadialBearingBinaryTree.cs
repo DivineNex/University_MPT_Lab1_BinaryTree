@@ -7,6 +7,8 @@ using System.Windows.Forms;
 using System.Data;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
+using System.Configuration;
+using System.Xml.Linq;
 
 namespace University_ModernProgrammingTechnologies_Lab1
 {
@@ -77,7 +79,27 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         public void BuildBinaryTreeFromDBTable(SqlConnection connection, string tableName)
         {
+            string oString = $"Select * from {tableName}";
+            SqlCommand oCmd = new SqlCommand(oString, connection);
+            if (connection.State != ConnectionState.Open)
+                connection.Open();
 
+            using (SqlDataReader oReader = oCmd.ExecuteReader())
+            {
+                while (oReader.Read())
+                {
+                    RadialBearing radialBearing = new RadialBearing(oReader["Designation"].ToString(),
+                                                                    Convert.ToInt32(oReader["Din"]),
+                                                                    Convert.ToInt32(oReader["Dex"]),
+                                                                    Convert.ToInt32(oReader["B"]),
+                                                                    Convert.ToInt32(oReader["C"]),
+                                                                    Convert.ToInt32(oReader["C0"]));
+
+                    Insert(radialBearing);
+                }
+
+                connection.Close();
+            }
         }
     }
 }

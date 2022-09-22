@@ -30,7 +30,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private void InitDBManager()
         {
             dBManager = new DBManager();
-            dBManager.OpenConnection();
+            dBManager.connection.Open();
         }
 
         private void InitBinaryTree()

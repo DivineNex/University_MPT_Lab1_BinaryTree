@@ -18,8 +18,5 @@ namespace University_ModernProgrammingTechnologies_Lab1
         {
             connection = new SqlConnection(ConfigurationManager.ConnectionStrings["Bearings"].ConnectionString);
         }
-
-        public void OpenConnection() => connection.Open();
-        public void CloseConnection() => connection.Close();
     }
 }
