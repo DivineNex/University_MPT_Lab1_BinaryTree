@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Reflection;
 
 namespace University_ModernProgrammingTechnologies_Lab1
 {
@@ -33,14 +34,18 @@ namespace University_ModernProgrammingTechnologies_Lab1
             InitVisualizer();
             DoubleBuffered = true;
             pictureBox1.MouseWheel += PictureBox1_MouseWheel;
+
+            typeof(PictureBox).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
+           | BindingFlags.Instance | BindingFlags.NonPublic, null,
+           pictureBox1, new object[] { true });
         }
 
         private void PictureBox1_MouseWheel(object sender, MouseEventArgs e)
         {
             if (e.Delta > 0)
-                BinaryTreeVisualizerNode.node_size++;
+                BinaryTreeVisualizerNode.node_size += 2;
             else
-                BinaryTreeVisualizerNode.node_size--;
+                BinaryTreeVisualizerNode.node_size -= 2;
             _visualizer.RecalculateNodes();
             _visualizer.Draw();
         }
