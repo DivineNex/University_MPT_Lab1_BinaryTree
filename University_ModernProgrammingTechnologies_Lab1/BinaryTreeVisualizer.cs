@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace University_ModernProgrammingTechnologies_Lab1
 {
@@ -18,6 +19,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private Graphics _graphics;
         public int xOffset = 0;
         public int yOffset = 0;
+        private int hS;
 
         public BinaryTreeVisualizer(PictureBox pictureBox, RadialBearingBinaryTree binaryTree)
         {
@@ -35,23 +37,24 @@ namespace University_ModernProgrammingTechnologies_Lab1
         {
             _pictureBox.Image = new Bitmap(_pictureBox.Width, _pictureBox.Height);
             _graphics = Graphics.FromImage(_pictureBox.Image);
-            int hS = BinaryTreeVisualizerNode.node_size / 2;
+            hS = BinaryTreeVisualizerNode.node_size / 2;
 
-            foreach (var node in _nodes)
+            RecalculateNodes();
+            for (int i = 0; i < _nodes.Count; i++)
             {
-                if (node.ParentNode != null)
-                    _graphics.DrawLine(_pen, node.X + hS + xOffset, 
-                                       node.Y + hS + yOffset,
-                                       node.ParentNode.X + hS + xOffset, 
-                                       node.ParentNode.Y + hS + yOffset);
+                if (_nodes[i].ParentNode != null)
+                    _graphics.DrawLine(_pen, _nodes[i].X + hS + xOffset,
+                                       _nodes[i].Y + hS + yOffset,
+                                       _nodes[i].ParentNode.X + hS + xOffset,
+                                       _nodes[i].ParentNode.Y + hS + yOffset);
             }
 
-            foreach (var node in _nodes)
-            {   
-                _graphics.FillEllipse(_brush, new Rectangle(node.X + xOffset, node.Y + yOffset,
+            for (int i = 0; i < _nodes.Count; i++)
+            {
+                _graphics.FillEllipse(_brush, new Rectangle(_nodes[i].X + xOffset, _nodes[i].Y + yOffset,
                                                           BinaryTreeVisualizerNode.node_size,
                                                           BinaryTreeVisualizerNode.node_size));
-                _graphics.DrawEllipse(_pen, new Rectangle(node.X + xOffset, node.Y + yOffset,
+                _graphics.DrawEllipse(_pen, new Rectangle(_nodes[i].X + xOffset, _nodes[i].Y + yOffset,
                                                           BinaryTreeVisualizerNode.node_size,
                                                           BinaryTreeVisualizerNode.node_size));
             }
@@ -96,9 +99,21 @@ namespace University_ModernProgrammingTechnologies_Lab1
             }
         }
 
-        public void RecalculateNodes()
+        private void RecalculateNodes()
         {
-            CreateNodes();
+            for (int i = 0; i < _nodes.Count; i++)
+            {
+                if (i==0)
+                {
+                    _nodes[i].X = _pictureBox.Width / 2;
+                    _nodes[i].Y = BinaryTreeVisualizerNode.node_size; ;
+                }
+                else
+                {
+                    _nodes[i].X = _nodes[i].ParentNode.X + BinaryTreeVisualizerNode.node_size * 2;
+                    _nodes[i].Y = _nodes[i].ParentNode.Y + BinaryTreeVisualizerNode.node_size * 2; ;
+                }
+            }
         }
     }
 }

@@ -21,6 +21,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private int _mouseY = 0;
         private int _mouseOffsetX = 0;
         private int _mouseOffsetY = 0;
+        private Timer _drawTimer;
 
         public formMain()
         {
@@ -29,15 +30,24 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         private void formMain_Load(object sender, EventArgs e)
         {
-            InitDBManager();
+            DoubleBuffered = true;
+            _dBManager = new DBManager();
+            _drawTimer = new Timer() { Interval = 20 };
+
             InitBinaryTree();
             InitVisualizer();
-            DoubleBuffered = true;
+            
             pictureBox1.MouseWheel += PictureBox1_MouseWheel;
+            _drawTimer.Tick += _drawTimer_Tick;
 
             typeof(PictureBox).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
            | BindingFlags.Instance | BindingFlags.NonPublic, null,
            pictureBox1, new object[] { true });
+        }
+
+        private void _drawTimer_Tick(object sender, EventArgs e)
+        {
+            _visualizer.Draw();
         }
 
         private void PictureBox1_MouseWheel(object sender, MouseEventArgs e)
@@ -46,14 +56,6 @@ namespace University_ModernProgrammingTechnologies_Lab1
                 BinaryTreeVisualizerNode.node_size += 2;
             else
                 BinaryTreeVisualizerNode.node_size -= 2;
-            _visualizer.RecalculateNodes();
-            _visualizer.Draw();
-        }
-
-        private void InitDBManager()
-        {
-            _dBManager = new DBManager();
-            _dBManager.connection.Open();
         }
 
         private void InitBinaryTree()
@@ -66,12 +68,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
         {
             _visualizer = new BinaryTreeVisualizer(pictureBox1, _binaryTree);
             Controls.Add(_visualizer);
-            _visualizer.Draw();
-        }
-
-        private void formMain_Resize(object sender, EventArgs e)
-        {
-            _visualizer.Draw();
+            _drawTimer.Start();
         }
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
@@ -83,7 +80,6 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
                 _visualizer.xOffset += _mouseOffsetX;
                 _visualizer.yOffset += _mouseOffsetY;
-                _visualizer.Draw();
             }
 
             _mouseX = e.X;
