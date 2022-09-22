@@ -14,8 +14,6 @@ namespace University_ModernProgrammingTechnologies_Lab1
 {
     internal sealed class RadialBearingBinaryTree : BinaryTree<RadialBearing>
     {
-        private protected override BinaryTreeItem<RadialBearing> _rootItem { get; set; }
-
         public override void Clear()
         {
             
@@ -59,17 +57,17 @@ namespace University_ModernProgrammingTechnologies_Lab1
         {
             if (newBearing.Item.C < currentBearing.Item.C)
             {
-                if (currentBearing.LeftItem == null)
-                    currentBearing.LeftItem = newBearing;
+                if (currentBearing.leftItem == null)
+                    currentBearing.leftItem = newBearing;
                 else
-                    _Insert(currentBearing.LeftItem, newBearing);
+                    _Insert(currentBearing.leftItem, newBearing);
             }
             else if (newBearing.Item.C > currentBearing.Item.C)
             {
-                if (currentBearing.RightItem == null)
-                    currentBearing.RightItem = newBearing;
+                if (currentBearing.rightItem == null)
+                    currentBearing.rightItem = newBearing;
                 else
-                    _Insert(currentBearing.RightItem, newBearing);
+                    _Insert(currentBearing.rightItem, newBearing);
             }
             else
             {

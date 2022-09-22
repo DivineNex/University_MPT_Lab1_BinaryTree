@@ -10,7 +10,8 @@ namespace University_ModernProgrammingTechnologies_Lab1
     internal abstract class BinaryTree<T>
     {
         private protected const string ELEMENT_EXIST_MESSAGE = "The element has already in the tree";
-        private protected abstract BinaryTreeItem<T> _rootItem { get; set; }
+        private protected BinaryTreeItem<T> _rootItem;
+        public BinaryTreeItem<T> RootItem { get { return _rootItem; } }
 
         public BinaryTree()
         {

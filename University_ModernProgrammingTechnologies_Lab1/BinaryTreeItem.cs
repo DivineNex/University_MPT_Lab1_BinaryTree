@@ -9,14 +9,14 @@ namespace University_ModernProgrammingTechnologies_Lab1
     internal class BinaryTreeItem<T>
     {
         public T Item { get; private set; }
-        public BinaryTreeItem<T> LeftItem { get; set; }
-        public BinaryTreeItem<T> RightItem { get; set; }
+        public BinaryTreeItem<T> leftItem;
+        public BinaryTreeItem<T> rightItem;
 
         public BinaryTreeItem(T item)
         {
             Item = item;
-            LeftItem = null;
-            RightItem = null;
+            leftItem = null;
+            rightItem = null;
         }
     }
 }

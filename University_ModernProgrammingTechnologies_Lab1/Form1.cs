@@ -13,8 +13,9 @@ namespace University_ModernProgrammingTechnologies_Lab1
 {
     public partial class formMain : Form
     {
-        private DBManager dBManager;
-        private RadialBearingBinaryTree binaryTree;
+        private DBManager _dBManager;
+        private RadialBearingBinaryTree _binaryTree;
+        private BinaryTreeVisualizer _visualizer;
 
         public formMain()
         {
@@ -25,18 +26,31 @@ namespace University_ModernProgrammingTechnologies_Lab1
         {
             InitDBManager();
             InitBinaryTree();
+            InitVisualizer();
         }
 
         private void InitDBManager()
         {
-            dBManager = new DBManager();
-            dBManager.connection.Open();
+            _dBManager = new DBManager();
+            _dBManager.connection.Open();
         }
 
         private void InitBinaryTree()
         {
-            binaryTree = new RadialBearingBinaryTree();
-            binaryTree.BuildBinaryTreeFromDBTable(dBManager.connection, "RadialBearings");
+            _binaryTree = new RadialBearingBinaryTree();
+            _binaryTree.BuildBinaryTreeFromDBTable(_dBManager.connection, "RadialBearings");
+        }
+
+        private void InitVisualizer()
+        {
+            _visualizer = new BinaryTreeVisualizer(pictureBox1, _binaryTree);
+            Controls.Add(_visualizer);
+            _visualizer.Draw();
+        }
+
+        private void formMain_Resize(object sender, EventArgs e)
+        {
+            _visualizer.Draw();
         }
     }
 }
