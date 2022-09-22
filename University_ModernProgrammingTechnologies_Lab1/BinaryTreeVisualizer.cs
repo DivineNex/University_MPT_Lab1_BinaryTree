@@ -16,6 +16,8 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private BinaryTree<RadialBearing> _tree;
         private List<BinaryTreeVisualizerNode> _nodes;
         private Graphics _graphics;
+        public int xOffset = 0;
+        public int yOffset = 0;
 
         public BinaryTreeVisualizer(PictureBox pictureBox, RadialBearingBinaryTree binaryTree)
         {
@@ -38,15 +40,18 @@ namespace University_ModernProgrammingTechnologies_Lab1
             foreach (var node in _nodes)
             {
                 if (node.ParentNode != null)
-                    _graphics.DrawLine(_pen, node.X + hS, node.Y + hS, node.ParentNode.X + hS, node.ParentNode.Y + hS);
+                    _graphics.DrawLine(_pen, node.X + hS + xOffset, 
+                                       node.Y + hS + yOffset,
+                                       node.ParentNode.X + hS + xOffset, 
+                                       node.ParentNode.Y + hS + yOffset);
             }
 
             foreach (var node in _nodes)
             {   
-                _graphics.FillEllipse(_brush, new Rectangle(node.X, node.Y,
+                _graphics.FillEllipse(_brush, new Rectangle(node.X + xOffset, node.Y + yOffset,
                                                           BinaryTreeVisualizerNode.node_size,
                                                           BinaryTreeVisualizerNode.node_size));
-                _graphics.DrawEllipse(_pen, new Rectangle(node.X, node.Y,
+                _graphics.DrawEllipse(_pen, new Rectangle(node.X + xOffset, node.Y + yOffset,
                                                           BinaryTreeVisualizerNode.node_size,
                                                           BinaryTreeVisualizerNode.node_size));
             }
@@ -89,6 +94,11 @@ namespace University_ModernProgrammingTechnologies_Lab1
                 Controls.Add(newNode);
                 _CreateNodeChilds(newNode);
             }
+        }
+
+        public void RecalculateNodes()
+        {
+            CreateNodes();
         }
     }
 }

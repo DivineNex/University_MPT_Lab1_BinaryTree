@@ -16,6 +16,10 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private DBManager _dBManager;
         private RadialBearingBinaryTree _binaryTree;
         private BinaryTreeVisualizer _visualizer;
+        private int _mouseX = 0;
+        private int _mouseY = 0;
+        private int _mouseOffsetX = 0;
+        private int _mouseOffsetY = 0;
 
         public formMain()
         {
@@ -27,6 +31,18 @@ namespace University_ModernProgrammingTechnologies_Lab1
             InitDBManager();
             InitBinaryTree();
             InitVisualizer();
+            DoubleBuffered = true;
+            pictureBox1.MouseWheel += PictureBox1_MouseWheel;
+        }
+
+        private void PictureBox1_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (e.Delta > 0)
+                BinaryTreeVisualizerNode.node_size++;
+            else
+                BinaryTreeVisualizerNode.node_size--;
+            _visualizer.RecalculateNodes();
+            _visualizer.Draw();
         }
 
         private void InitDBManager()
@@ -51,6 +67,22 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private void formMain_Resize(object sender, EventArgs e)
         {
             _visualizer.Draw();
+        }
+
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Middle)
+            {
+                _mouseOffsetX = e.X - _mouseX;
+                _mouseOffsetY = e.Y - _mouseY;
+
+                _visualizer.xOffset += _mouseOffsetX;
+                _visualizer.yOffset += _mouseOffsetY;
+                _visualizer.Draw();
+            }
+
+            _mouseX = e.X;
+            _mouseY = e.Y;
         }
     }
 }

@@ -11,8 +11,8 @@ namespace University_ModernProgrammingTechnologies_Lab1
     {
         public static int node_size = 25;
 
-        public int X { get; private set; }
-        public int Y { get; private set; }
+        public int X { get; set; }
+        public int Y { get; set; }
         public BinaryTreeItem<RadialBearing> TreeItem { get; private set; }
         public BinaryTreeVisualizerNode LeftNode { get; private set; } = null;
         public BinaryTreeVisualizerNode RightNode { get; private set; } = null;
