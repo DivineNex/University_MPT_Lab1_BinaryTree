@@ -83,6 +83,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
                 BinaryTreeVisualizerNode newNode = new BinaryTreeVisualizerNode(node.X - BinaryTreeVisualizerNode.node_size * 2,
                                                                                 node.Y + BinaryTreeVisualizerNode.node_size * 2,
                                                                                 node.TreeItem.leftItem, node);
+                node.LeftNode = newNode;
                 _nodes.Add(newNode);
                 Controls.Add(newNode);
                 _CreateNodeChilds(newNode);
@@ -93,6 +94,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
                 BinaryTreeVisualizerNode newNode = new BinaryTreeVisualizerNode(node.X + BinaryTreeVisualizerNode.node_size * 2,
                                                                                 node.Y + BinaryTreeVisualizerNode.node_size * 2,
                                                                                 node.TreeItem.rightItem, node);
+                node.RightNode = newNode;
                 _nodes.Add(newNode);
                 Controls.Add(newNode);
                 _CreateNodeChilds(newNode);
@@ -101,18 +103,16 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         private void RecalculateNodes()
         {
-            for (int i = 0; i < _nodes.Count; i++)
+            _nodes[0].X = _pictureBox.Width / 2;
+            _nodes[0].Y = BinaryTreeVisualizerNode.node_size;
+
+            for (int i = 1; i < _nodes.Count; i++)
             {
-                if (i==0)
-                {
-                    _nodes[i].X = _pictureBox.Width / 2;
-                    _nodes[i].Y = BinaryTreeVisualizerNode.node_size; ;
-                }
+                if (_nodes[i] == _nodes[i].ParentNode.LeftNode)
+                    _nodes[i].X = _nodes[i].ParentNode.X - BinaryTreeVisualizerNode.node_size * 2;
                 else
-                {
                     _nodes[i].X = _nodes[i].ParentNode.X + BinaryTreeVisualizerNode.node_size * 2;
-                    _nodes[i].Y = _nodes[i].ParentNode.Y + BinaryTreeVisualizerNode.node_size * 2; ;
-                }
+                _nodes[i].Y = _nodes[i].ParentNode.Y + BinaryTreeVisualizerNode.node_size * 2;
             }
         }
     }

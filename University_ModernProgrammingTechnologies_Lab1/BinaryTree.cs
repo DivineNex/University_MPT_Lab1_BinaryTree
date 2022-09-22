@@ -11,6 +11,8 @@ namespace University_ModernProgrammingTechnologies_Lab1
     {
         private protected const string ELEMENT_EXIST_MESSAGE = "The element has already in the tree";
         private protected BinaryTreeItem<T> _rootItem;
+
+        public int ItemCount { get; private protected set; } = 0;
         public BinaryTreeItem<T> RootItem { get { return _rootItem; } }
 
         public BinaryTree()
@@ -26,10 +28,6 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         public abstract void Search();
 
-        public abstract void Recount();
-
         public abstract void Clear();
-
-        public abstract bool IsEmpty();
     }
 }

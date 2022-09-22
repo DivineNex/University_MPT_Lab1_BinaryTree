@@ -26,21 +26,11 @@ namespace University_ModernProgrammingTechnologies_Lab1
             if (_rootItem == null)
             {
                 _rootItem = binaryTreeItem;
+                ItemCount++;
                 return;
             }
 
             _Insert(_rootItem, binaryTreeItem);
-        }
-
-        public override bool IsEmpty()
-        {
-            //временная заглушка
-            return true;
-        }
-
-        public override void Recount()
-        {
-            
         }
 
         public override void Remove()
@@ -58,14 +48,21 @@ namespace University_ModernProgrammingTechnologies_Lab1
             if (newBearing.Item.C < currentBearing.Item.C)
             {
                 if (currentBearing.leftItem == null)
+                {
                     currentBearing.leftItem = newBearing;
-                else
+                    ItemCount++;
+                }
+                else 
                     _Insert(currentBearing.leftItem, newBearing);
+
             }
             else if (newBearing.Item.C > currentBearing.Item.C)
             {
                 if (currentBearing.rightItem == null)
+                {
                     currentBearing.rightItem = newBearing;
+                    ItemCount++;
+                }
                 else
                     _Insert(currentBearing.rightItem, newBearing);
             }
