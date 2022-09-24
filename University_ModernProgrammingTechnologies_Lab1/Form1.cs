@@ -80,7 +80,8 @@ namespace University_ModernProgrammingTechnologies_Lab1
                 if (e.Delta > 0)
                     BinaryTreeVisualizerNode.node_size += 2;
                 else
-                    BinaryTreeVisualizerNode.node_size -= 2;
+                    if (BinaryTreeVisualizerNode.node_size > 2)
+                        BinaryTreeVisualizerNode.node_size -= 2;
             }
 
         }
