@@ -21,7 +21,6 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private int _mouseY = 0;
         private int _mouseOffsetX = 0;
         private int _mouseOffsetY = 0;
-        private Timer _drawTimer;
         private bool _shiftPressed = false;
 
         public formMain()
@@ -33,19 +32,20 @@ namespace University_ModernProgrammingTechnologies_Lab1
         {
             DoubleBuffered = true;
             _dBManager = new DBManager();
-            _drawTimer = new Timer() { Interval = 20 };
-
             InitBinaryTree();
             InitVisualizer();
             
             pictureBox1.MouseWheel += PictureBox1_MouseWheel;
-            _drawTimer.Tick += _drawTimer_Tick;
             splitContainer1.KeyDown += SplitContainer1_KeyDown;
             splitContainer1.KeyUp += SplitContainer1_KeyUp;
 
+            //pictureBox double bufferization
             typeof(PictureBox).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
            | BindingFlags.Instance | BindingFlags.NonPublic, null,
            pictureBox1, new object[] { true });
+
+            splitContainer1.Select();
+            cbParam.SelectedIndex = 1;
         }
 
         private void SplitContainer1_KeyUp(object sender, KeyEventArgs e)
@@ -58,11 +58,6 @@ namespace University_ModernProgrammingTechnologies_Lab1
         {
             if (e.KeyCode == Keys.ShiftKey)
                 _shiftPressed = true;
-        }
-
-        private void _drawTimer_Tick(object sender, EventArgs e)
-        {
-            _visualizer.Draw();
         }
 
         private void PictureBox1_MouseWheel(object sender, MouseEventArgs e)
@@ -98,7 +93,6 @@ namespace University_ModernProgrammingTechnologies_Lab1
             _visualizer.Parent = this;
             _visualizer.Width = Width;
             Controls.Add(_visualizer);
-            _drawTimer.Start();
         }
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
@@ -116,12 +110,12 @@ namespace University_ModernProgrammingTechnologies_Lab1
             _mouseY = e.Y;
         }
 
-        private void formMain_KeyDown(object sender, KeyEventArgs e)
+        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-
+            splitContainer1.Select();
         }
 
-        private void formMain_KeyUp(object sender, KeyEventArgs e)
+        private void cbParam_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

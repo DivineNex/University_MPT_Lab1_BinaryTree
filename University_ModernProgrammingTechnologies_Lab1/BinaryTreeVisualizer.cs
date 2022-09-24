@@ -16,6 +16,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private SolidBrush _brush;
         private SolidBrush _fontBrush;
         private PictureBox _pictureBox;
+        private Timer _drawTimer;
         private BinaryTree<RadialBearing> _tree;
         private List<BinaryTreeVisualizerNode> _nodes;
         private Graphics _graphics;
@@ -30,11 +31,21 @@ namespace University_ModernProgrammingTechnologies_Lab1
             _pictureBox.Image = new Bitmap(_pictureBox.Width, _pictureBox.Height);
             _tree = binaryTree;
             _pen = new Pen(Color.DarkGray);
-            _brush = new SolidBrush(Color.PeachPuff);
+            _brush = new SolidBrush(Color.FromArgb(210, 185, 255));
             _fontBrush = new SolidBrush(Color.FromArgb(80, 80, 80));
             _graphics = Graphics.FromImage(pictureBox.Image);
             _nodes = new List<BinaryTreeVisualizerNode>();
+            _drawTimer = new Timer() { Interval = 20 };
+
+            _drawTimer.Tick += _drawTimer_Tick;
+            _drawTimer.Start();
+
             CreateNodes();
+        }
+
+        private void _drawTimer_Tick(object sender, EventArgs e)
+        {
+            Draw();
         }
 
         public void Draw()
@@ -67,9 +78,9 @@ namespace University_ModernProgrammingTechnologies_Lab1
                 Font font = new Font(Name = "Times New Roman", BinaryTreeVisualizerNode.node_size / 3.5f);
                 string valueString = _nodes[i].TreeItem.Item.C.ToString();
                 SizeF stringSize = _graphics.MeasureString(valueString, font);
-                _graphics.DrawString(valueString, font, _fontBrush, 
-                                     new PointF(_nodes[i].X + xOffset + BinaryTreeVisualizerNode.node_size / 2 - stringSize.Width / 2, 
-                                                _nodes[i].Y + yOffset + BinaryTreeVisualizerNode.node_size / 2 - stringSize.Height / 2));
+                PointF stringLocation = new PointF(_nodes[i].X + xOffset + BinaryTreeVisualizerNode.node_size / 2 - stringSize.Width / 2,
+                                                   _nodes[i].Y + yOffset + BinaryTreeVisualizerNode.node_size / 2 - stringSize.Height / 2);
+                _graphics.DrawString(valueString, font, _fontBrush, stringLocation);
             }
 
             _pictureBox.Invalidate();
