@@ -11,7 +11,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
 {
     internal class BinaryTreeVisualizer : Control
     {
-        public static int widthMultiplier = 10;
+        public static int widthMultiplier = 30;
         private Pen _pen;
         private SolidBrush _brush;
         private SolidBrush _fontBrush;
@@ -124,12 +124,12 @@ namespace University_ModernProgrammingTechnologies_Lab1
         {
             _width = BinaryTreeVisualizerNode.node_size * widthMultiplier;
 
-            _nodes[0].X = InterpolateX(_nodes[0].TreeItem.Item.C, _tree.MinValue, _tree.MaxValue, 0, _width);
+            _nodes[0].X = InterpolateX(_nodes[0].TreeItem.Item.C, _tree.MinValue, _tree.MaxValue, 0, _width) + _pictureBox.Width / 2;
             _nodes[0].Y = BinaryTreeVisualizerNode.node_size;
 
             for (int i = 1; i < _nodes.Count; i++)
             {
-                _nodes[i].X = InterpolateX(_nodes[i].TreeItem.Item.C, _tree.MinValue, _tree.MaxValue, 0, _width);
+                _nodes[i].X = InterpolateX(_nodes[i].TreeItem.Item.C, _tree.MinValue, _tree.MaxValue, 0, _width) + _pictureBox.Width / 2;
                 _nodes[i].Y = _nodes[i].ParentNode.Y + BinaryTreeVisualizerNode.node_size*2;
             }
         }
