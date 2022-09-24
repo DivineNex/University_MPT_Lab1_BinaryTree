@@ -19,12 +19,8 @@ namespace University_ModernProgrammingTechnologies_Lab1
         public BinaryTreeVisualizerNode ParentNode { get; private set; } = null;
 
 
-        public BinaryTreeVisualizerNode(int x, int y, BinaryTreeItem<RadialBearing> treeItem, BinaryTreeVisualizerNode parentNode)
+        public BinaryTreeVisualizerNode(BinaryTreeItem<RadialBearing> treeItem, BinaryTreeVisualizerNode parentNode)
         {
-            X = x;
-            Y = y;
-            Left = x;
-            Top = y;
             Width = node_size;
             Height = node_size;
             TreeItem = treeItem;

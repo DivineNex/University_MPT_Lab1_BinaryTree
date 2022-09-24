@@ -22,6 +22,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private int _mouseOffsetX = 0;
         private int _mouseOffsetY = 0;
         private Timer _drawTimer;
+        private bool _shiftPressed = false;
 
         public formMain()
         {
@@ -39,10 +40,24 @@ namespace University_ModernProgrammingTechnologies_Lab1
             
             pictureBox1.MouseWheel += PictureBox1_MouseWheel;
             _drawTimer.Tick += _drawTimer_Tick;
+            splitContainer1.KeyDown += SplitContainer1_KeyDown;
+            splitContainer1.KeyUp += SplitContainer1_KeyUp;
 
             typeof(PictureBox).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
            | BindingFlags.Instance | BindingFlags.NonPublic, null,
            pictureBox1, new object[] { true });
+        }
+
+        private void SplitContainer1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.ShiftKey)
+                _shiftPressed = false;
+        }
+
+        private void SplitContainer1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.ShiftKey)
+                _shiftPressed = true;
         }
 
         private void _drawTimer_Tick(object sender, EventArgs e)
@@ -52,10 +67,22 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         private void PictureBox1_MouseWheel(object sender, MouseEventArgs e)
         {
-            if (e.Delta > 0)
-                BinaryTreeVisualizerNode.node_size += 2;
+            if (_shiftPressed)
+            {
+                if (e.Delta > 0)
+                    BinaryTreeVisualizer.widthMultiplier += 10;
+                else
+                    if (BinaryTreeVisualizer.widthMultiplier > 0)
+                        BinaryTreeVisualizer.widthMultiplier -= 10;
+            }
             else
-                BinaryTreeVisualizerNode.node_size -= 2;
+            {
+                if (e.Delta > 0)
+                    BinaryTreeVisualizerNode.node_size += 2;
+                else
+                    BinaryTreeVisualizerNode.node_size -= 2;
+            }
+
         }
 
         private void InitBinaryTree()
@@ -67,6 +94,8 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private void InitVisualizer()
         {
             _visualizer = new BinaryTreeVisualizer(pictureBox1, _binaryTree);
+            _visualizer.Parent = this;
+            _visualizer.Width = Width;
             Controls.Add(_visualizer);
             _drawTimer.Start();
         }
@@ -84,6 +113,16 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
             _mouseX = e.X;
             _mouseY = e.Y;
+        }
+
+        private void formMain_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void formMain_KeyUp(object sender, KeyEventArgs e)
+        {
+
         }
     }
 }

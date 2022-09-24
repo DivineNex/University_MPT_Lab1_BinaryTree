@@ -11,6 +11,11 @@ namespace University_ModernProgrammingTechnologies_Lab1
     {
         private protected const string ELEMENT_EXIST_MESSAGE = "The element has already in the tree";
         private protected BinaryTreeItem<T> _rootItem;
+        private protected int _maxValue = Int32.MinValue;
+        private protected int _minValue = Int32.MaxValue;
+
+        public int MaxValue { get { return _maxValue; } }
+        public int MinValue { get { return _minValue; } }
 
         public int ItemCount { get; private protected set; } = 0;
         public BinaryTreeItem<T> RootItem { get { return _rootItem; } }

@@ -27,6 +27,8 @@ namespace University_ModernProgrammingTechnologies_Lab1
             {
                 _rootItem = binaryTreeItem;
                 ItemCount++;
+                _minValue = binaryTreeItem.Item.C;
+                _maxValue = binaryTreeItem.Item.C;
                 return;
             }
 
@@ -54,7 +56,6 @@ namespace University_ModernProgrammingTechnologies_Lab1
                 }
                 else 
                     _Insert(currentBearing.leftItem, newBearing);
-
             }
             else if (newBearing.Item.C > currentBearing.Item.C)
             {
@@ -69,6 +70,15 @@ namespace University_ModernProgrammingTechnologies_Lab1
             else
             {
                 MessageBox.Show(ELEMENT_EXIST_MESSAGE);
+            }
+
+            if (newBearing.Item.C < _minValue)
+            {
+                _minValue = newBearing.Item.C;
+            }
+            else if (newBearing.Item.C > _maxValue)
+            {
+                _maxValue = newBearing.Item.C;
             }
         }
 

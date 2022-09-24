@@ -71,6 +71,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Lab1";
             this.Load += new System.EventHandler(this.formMain_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.formMain_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.formMain_KeyUp);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);

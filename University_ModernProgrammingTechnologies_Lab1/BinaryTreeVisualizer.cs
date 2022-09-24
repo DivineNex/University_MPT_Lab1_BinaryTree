@@ -11,6 +11,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
 {
     internal class BinaryTreeVisualizer : Control
     {
+        public static int widthMultiplier = 10;
         private Pen _pen;
         private SolidBrush _brush;
         private PictureBox _pictureBox;
@@ -20,6 +21,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
         public int xOffset = 0;
         public int yOffset = 0;
         private int hS;
+        private int _width = 0;
 
         public BinaryTreeVisualizer(PictureBox pictureBox, RadialBearingBinaryTree binaryTree)
         {
@@ -69,8 +71,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
             //root node creation
             int x = _pictureBox.Width / 2;
             int y = BinaryTreeVisualizerNode.node_size;
-            BinaryTreeVisualizerNode rootNode = new BinaryTreeVisualizerNode(x,y,
-                                                                             _tree.RootItem, null);
+            BinaryTreeVisualizerNode rootNode = new BinaryTreeVisualizerNode(_tree.RootItem, null);
             _nodes.Add(rootNode);
             Controls.Add(rootNode);
             _CreateNodeChilds(rootNode);
@@ -80,9 +81,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
         {
             if (node.TreeItem.leftItem != null)
             {
-                BinaryTreeVisualizerNode newNode = new BinaryTreeVisualizerNode(node.X - BinaryTreeVisualizerNode.node_size * 2,
-                                                                                node.Y + BinaryTreeVisualizerNode.node_size * 2,
-                                                                                node.TreeItem.leftItem, node);
+                BinaryTreeVisualizerNode newNode = new BinaryTreeVisualizerNode(node.TreeItem.leftItem, node);
                 node.LeftNode = newNode;
                 _nodes.Add(newNode);
                 Controls.Add(newNode);
@@ -91,9 +90,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
             if (node.TreeItem.rightItem != null)
             {
-                BinaryTreeVisualizerNode newNode = new BinaryTreeVisualizerNode(node.X + BinaryTreeVisualizerNode.node_size * 2,
-                                                                                node.Y + BinaryTreeVisualizerNode.node_size * 2,
-                                                                                node.TreeItem.rightItem, node);
+                BinaryTreeVisualizerNode newNode = new BinaryTreeVisualizerNode(node.TreeItem.rightItem, node);
                 node.RightNode = newNode;
                 _nodes.Add(newNode);
                 Controls.Add(newNode);
@@ -103,17 +100,21 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         private void RecalculateNodes()
         {
-            _nodes[0].X = _pictureBox.Width / 2;
+            _width = BinaryTreeVisualizerNode.node_size * widthMultiplier;
+
+            _nodes[0].X = InterpolateX(_nodes[0].TreeItem.Item.C, _tree.MinValue, _tree.MaxValue, 0, _width);
             _nodes[0].Y = BinaryTreeVisualizerNode.node_size;
 
             for (int i = 1; i < _nodes.Count; i++)
             {
-                if (_nodes[i] == _nodes[i].ParentNode.LeftNode)
-                    _nodes[i].X = _nodes[i].ParentNode.X - BinaryTreeVisualizerNode.node_size * 2;
-                else
-                    _nodes[i].X = _nodes[i].ParentNode.X + BinaryTreeVisualizerNode.node_size * 2;
-                _nodes[i].Y = _nodes[i].ParentNode.Y + BinaryTreeVisualizerNode.node_size * 2;
+                _nodes[i].X = InterpolateX(_nodes[i].TreeItem.Item.C, _tree.MinValue, _tree.MaxValue, 0, _width);
+                _nodes[i].Y = _nodes[i].ParentNode.Y + BinaryTreeVisualizerNode.node_size*2;
             }
+        }
+
+        private int InterpolateX(int x, int x1, int x2, int y1, int y2)
+        {
+            return y1 + (y2 - y1) * (x - x1) / (x2 - x1);
         }
     }
 }
