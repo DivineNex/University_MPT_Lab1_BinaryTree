@@ -24,10 +24,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private int _width = 0;
         private int _mouseX = 0;
         private int _mouseY = 0;
-        private int _mouseOffsetX = 0;
-        private int _mouseOffsetY = 0;
         private bool _shiftPressed = false;
-
 
         public BinaryTreeVisualizer(Control parent, RadialBearingBinaryTree binaryTree)
         {
@@ -69,11 +66,8 @@ namespace University_ModernProgrammingTechnologies_Lab1
         {
             if (e.Button == MouseButtons.Middle)
             {
-                _mouseOffsetX = e.X - _mouseX;
-                _mouseOffsetY = e.Y - _mouseY;
-
-                xOffset += _mouseOffsetX;
-                yOffset += _mouseOffsetY;
+                xOffset += e.X - _mouseX;
+                yOffset += e.Y - _mouseY;
 
                 UpdateAndDraw();
             }

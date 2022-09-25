@@ -12,19 +12,9 @@ namespace University_ModernProgrammingTechnologies_Lab1
     {
         public static int nodeSize = 25;
 
-        private int x;
-        public int X
-        {
-            get { return x; }
-            set { x = value; Left = value; }
-        }
+        public int X { get; set; }
 
-        private int y;
-        public int Y
-        {
-            get { return y; }
-            set { y = value; Top = value; }
-        }
+        public int Y { get; set; }
 
         public BinaryTreeItem<RadialBearing> TreeItem { get; private set; }
         public BinaryTreeVisualizerNode LeftNode { get; set; } = null;
@@ -32,6 +22,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
         public BinaryTreeVisualizerNode ParentNode { get; private set; } = null;
 
         private Pen _pen;
+        private bool cursorOnIt = false;
 
         public BinaryTreeVisualizerNode(BinaryTreeVisualizer visualizer, BinaryTreeItem<RadialBearing> treeItem, BinaryTreeVisualizerNode parentNode)
         {
@@ -41,21 +32,51 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
             visualizer.Controls.Add(this);
             Parent = visualizer;
-            BackColor = Color.Blue;
 
-            _pen = new Pen(Color.DarkGray);
+            _pen = new Pen(Color.Black);
+            _pen.Width = 2;
             _pen.DashPattern = new float[] { 2, 2 };
 
-            MouseMove += BinaryTreeVisualizerNode_MouseMove;
+            MouseEnter += BinaryTreeVisualizerNode_MouseEnter;
+            MouseLeave += BinaryTreeVisualizerNode_MouseLeave;
+            MouseClick += BinaryTreeVisualizerNode_MouseClick;
+            Paint += BinaryTreeVisualizerNode_Paint;
 
             Location = new Point(X, Y);
             DoubleBuffered = true;
+
+            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            BackColor = Color.Transparent;
         }
 
-        private void BinaryTreeVisualizerNode_MouseMove(object sender, MouseEventArgs e)
+        private void BinaryTreeVisualizerNode_MouseClick(object sender, MouseEventArgs e)
         {
-            MessageBox.Show("lol");
-            //_graphics.DrawRectangle(_pen, X, Y, Width, Height);
+            if (cursorOnIt)
+                if (e.Button == MouseButtons.Left)
+                    MessageBox.Show("Clicked!");
+        }
+
+        private void BinaryTreeVisualizerNode_MouseLeave(object sender, EventArgs e)
+        {
+            cursorOnIt = false;
+            Refresh();
+        }
+
+        private void BinaryTreeVisualizerNode_MouseEnter(object sender, EventArgs e)
+        {
+            cursorOnIt = true;
+            Refresh();
+        }
+
+        private void BinaryTreeVisualizerNode_Paint(object sender, PaintEventArgs e)
+        {
+            if (cursorOnIt)
+                DrawBorder(e.Graphics);
+        }
+
+        private void DrawBorder(Graphics graphics)
+        {
+            graphics.DrawRectangle(_pen, ClientRectangle);
         }
     }
 }

@@ -96,7 +96,6 @@ namespace University_ModernProgrammingTechnologies_Lab1
             }
 
             bckColor.Dispose();
-            g.Dispose();
             base.OnPaint(e);
         }
 
