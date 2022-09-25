@@ -38,7 +38,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
             parent.Controls.Add(this);
 
             Size = new Size(Parent.Width, Parent.Height);
-            DoubleBuffered = true;
+            //DoubleBuffered = true;
 
             Paint += BinaryTreeVisualizer_Paint;
             MouseWheel += BinaryTreeVisualizer_MouseWheel;
@@ -50,61 +50,26 @@ namespace University_ModernProgrammingTechnologies_Lab1
             UpdateAndDraw();
         }
 
-        private void BinaryTreeVisualizer_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.ShiftKey)
-                _shiftPressed = false;
-        }
-
-        private void BinaryTreeVisualizer_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.ShiftKey)
-                _shiftPressed = true;
-        }
-
-        private void BinaryTreeVisualizer_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Middle)
-            {
-                xOffset += e.X - _mouseX;
-                yOffset += e.Y - _mouseY;
-
-                UpdateAndDraw();
-            }
-
-            _mouseX = e.X;
-            _mouseY = e.Y;
-        }
-
-        private void BinaryTreeVisualizer_MouseWheel(object sender, MouseEventArgs e)
-        {
-            if (_shiftPressed)
-            {
-                if (e.Delta > 0)
-                    widthScale += 10;
-                else
-                    if (widthScale > 0)
-                    widthScale -= 10;
-            }
-            else
-            {
-                if (e.Delta > 0)
-                    BinaryTreeVisualizerNode.nodeSize += 2;
-                else
-                    if (BinaryTreeVisualizerNode.nodeSize > 2)
-                    BinaryTreeVisualizerNode.nodeSize -= 2;
-            }
-
-            UpdateAndDraw();
-        }
-
         private void BinaryTreeVisualizer_Paint(object sender, PaintEventArgs e)
         {
+            e.Graphics.Clear(Color.White);
             Draw(e.Graphics);
+        }
+
+        //removes flickering
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
+                return cp;
+            }
         }
 
         public void Draw(Graphics graphics)
         {
+            graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             int hS = BinaryTreeVisualizerNode.nodeSize / 2;
 
             //connectiong lines drawing
@@ -173,8 +138,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
             _nodes[0].Y = BinaryTreeVisualizerNode.nodeSize;
             _nodes[0].Width = BinaryTreeVisualizerNode.nodeSize;
             _nodes[0].Height = BinaryTreeVisualizerNode.nodeSize;
-            _nodes[0].Left = _nodes[0].X + xOffset;
-            _nodes[0].Top = _nodes[0].Y + yOffset;
+            _nodes[0].Location = new Point(_nodes[0].X + xOffset, _nodes[0].Y + yOffset);
 
             for (int i = 1; i < _nodes.Count; i++)
             {
@@ -182,8 +146,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
                 _nodes[i].Y = _nodes[i].ParentNode.Y + BinaryTreeVisualizerNode.nodeSize * 2;
                 _nodes[i].Width = BinaryTreeVisualizerNode.nodeSize;
                 _nodes[i].Height = BinaryTreeVisualizerNode.nodeSize;
-                _nodes[i].Left = _nodes[i].X + xOffset;
-                _nodes[i].Top = _nodes[i].Y + yOffset;
+                _nodes[i].Location = new Point(_nodes[i].X + xOffset, _nodes[i].Y + yOffset);
             }
         }
 
@@ -191,6 +154,54 @@ namespace University_ModernProgrammingTechnologies_Lab1
         {
             RecalculateNodesPosition();
             Refresh();
+        }
+
+        private void BinaryTreeVisualizer_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.ShiftKey)
+                _shiftPressed = false;
+        }
+
+        private void BinaryTreeVisualizer_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.ShiftKey)
+                _shiftPressed = true;
+        }
+
+        private void BinaryTreeVisualizer_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Middle)
+            {
+                xOffset += e.X - _mouseX;
+                yOffset += e.Y - _mouseY;
+
+                UpdateAndDraw();
+            }
+
+            _mouseX = e.X;
+            _mouseY = e.Y;
+        }
+
+        private void BinaryTreeVisualizer_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (_shiftPressed)
+            {
+                if (e.Delta > 0)
+                    widthScale += 10;
+                else
+                    if (widthScale > 0)
+                    widthScale -= 10;
+            }
+            else
+            {
+                if (e.Delta > 0)
+                    BinaryTreeVisualizerNode.nodeSize += 2;
+                else
+                    if (BinaryTreeVisualizerNode.nodeSize > 2)
+                    BinaryTreeVisualizerNode.nodeSize -= 2;
+            }
+
+            UpdateAndDraw();
         }
 
         private int InterpolateX(int x, int x1, int x2, int y1, int y2)

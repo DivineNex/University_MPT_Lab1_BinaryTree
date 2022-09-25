@@ -49,6 +49,17 @@ namespace University_ModernProgrammingTechnologies_Lab1
             BackColor = Color.Transparent;
         }
 
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
+                return cp;
+            }
+        }
+
         private void BinaryTreeVisualizerNode_MouseClick(object sender, MouseEventArgs e)
         {
             if (cursorOnIt)

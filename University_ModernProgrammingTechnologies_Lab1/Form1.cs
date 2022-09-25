@@ -52,7 +52,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         private void cbParam_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            _visualizer.Select();
         }
     }
 }
