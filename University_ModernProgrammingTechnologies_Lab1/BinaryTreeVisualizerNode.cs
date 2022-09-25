@@ -13,7 +13,6 @@ namespace University_ModernProgrammingTechnologies_Lab1
         public static int nodeSize = 25;
 
         private int x;
-
         public int X
         {
             get { return x; }
@@ -21,13 +20,11 @@ namespace University_ModernProgrammingTechnologies_Lab1
         }
 
         private int y;
-
         public int Y
         {
             get { return y; }
             set { y = value; Top = value; }
         }
-
 
         public BinaryTreeItem<RadialBearing> TreeItem { get; private set; }
         public BinaryTreeVisualizerNode LeftNode { get; set; } = null;
@@ -36,24 +33,22 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         private Pen _pen;
 
-
         public BinaryTreeVisualizerNode(BinaryTreeVisualizer visualizer, BinaryTreeItem<RadialBearing> treeItem, BinaryTreeVisualizerNode parentNode)
         {
-            Width = nodeSize;
-            Height = nodeSize;
+            Size = new Size(nodeSize, nodeSize);
             TreeItem = treeItem;
             ParentNode = parentNode;
 
-            //visualizer.Controls.Add(this);
-            //Parent = visualizer;
+            visualizer.Controls.Add(this);
+            Parent = visualizer;
+            BackColor = Color.Blue;
 
             _pen = new Pen(Color.DarkGray);
             _pen.DashPattern = new float[] { 2, 2 };
 
             MouseMove += BinaryTreeVisualizerNode_MouseMove;
 
-            Left = X;
-            Top = Y;
+            Location = new Point(X, Y);
         }
 
         private void BinaryTreeVisualizerNode_MouseMove(object sender, MouseEventArgs e)

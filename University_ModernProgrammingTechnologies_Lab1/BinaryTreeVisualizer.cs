@@ -18,7 +18,6 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private SolidBrush _fontBrush;
         private BinaryTree<RadialBearing> _tree;
         private List<BinaryTreeVisualizerNode> _nodes;
-        private Graphics _graphics;
         public int xOffset = 0;
         public int yOffset = 0;
         private int hS;
@@ -106,11 +105,11 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         private void BinaryTreeVisualizer_Paint(object sender, PaintEventArgs e)
         {
-            _graphics = e.Graphics;
-            Draw();
+            Draw(e.Graphics);
+            Invalidate();
         }
 
-        public void Draw()
+        public void Draw(Graphics graphics)
         {
             hS = BinaryTreeVisualizerNode.nodeSize / 2;
 
@@ -119,7 +118,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
             for (int i = 0; i < _nodes.Count; i++)
             {
                 if (_nodes[i].ParentNode != null)
-                    _graphics.DrawLine(_pen, _nodes[i].X + hS + xOffset,
+                    graphics.DrawLine(_pen, _nodes[i].X + hS + xOffset,
                                        _nodes[i].Y + hS + yOffset,
                                        _nodes[i].ParentNode.X + hS + xOffset,
                                        _nodes[i].ParentNode.Y + hS + yOffset);
@@ -128,22 +127,20 @@ namespace University_ModernProgrammingTechnologies_Lab1
             //nodes drawing (also nodes labels)
             for (int i = 0; i < _nodes.Count; i++)
             {
-                _graphics.FillEllipse(_brush, new Rectangle(_nodes[i].X + xOffset, _nodes[i].Y + yOffset,
+                graphics.FillEllipse(_brush, new Rectangle(_nodes[i].X + xOffset, _nodes[i].Y + yOffset,
                                                           BinaryTreeVisualizerNode.nodeSize,
                                                           BinaryTreeVisualizerNode.nodeSize));
-                _graphics.DrawEllipse(_pen, new Rectangle(_nodes[i].X + xOffset, _nodes[i].Y + yOffset,
+                graphics.DrawEllipse(_pen, new Rectangle(_nodes[i].X + xOffset, _nodes[i].Y + yOffset,
                                                           BinaryTreeVisualizerNode.nodeSize,
                                                           BinaryTreeVisualizerNode.nodeSize));
 
                 Font font = new Font(Name = "Times New Roman", BinaryTreeVisualizerNode.nodeSize / 3.5f);
                 string valueString = _nodes[i].TreeItem.Item.C.ToString();
-                SizeF stringSize = _graphics.MeasureString(valueString, font);
+                SizeF stringSize = graphics.MeasureString(valueString, font);
                 PointF stringLocation = new PointF(_nodes[i].X + xOffset + BinaryTreeVisualizerNode.nodeSize / 2 - stringSize.Width / 2,
                                                    _nodes[i].Y + yOffset + BinaryTreeVisualizerNode.nodeSize / 2 - stringSize.Height / 2);
-                _graphics.DrawString(valueString, font, _fontBrush, stringLocation);
+                graphics.DrawString(valueString, font, _fontBrush, stringLocation);
             }
-
-            Invalidate();
         }
 
         public void CreateNodes()
@@ -195,6 +192,8 @@ namespace University_ModernProgrammingTechnologies_Lab1
                 //_nodes[i].Left = _nodes[i].X;
                 //_nodes[i].Top = _nodes[i].Y;
             }
+
+            Update();
         }
 
         private int InterpolateX(int x, int x1, int x2, int y1, int y2)
