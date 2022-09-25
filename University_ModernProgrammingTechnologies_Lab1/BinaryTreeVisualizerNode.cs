@@ -49,6 +49,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
             MouseMove += BinaryTreeVisualizerNode_MouseMove;
 
             Location = new Point(X, Y);
+            DoubleBuffered = true;
         }
 
         private void BinaryTreeVisualizerNode_MouseMove(object sender, MouseEventArgs e)

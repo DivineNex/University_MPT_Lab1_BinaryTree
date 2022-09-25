@@ -12,7 +12,8 @@ namespace University_ModernProgrammingTechnologies_Lab1
 {
     internal class BinaryTreeVisualizer : Control
     {
-        public static int widthMultiplier = 30;
+        public static int widthScale = 30;
+
         private Pen _pen;
         private SolidBrush _brush;
         private SolidBrush _fontBrush;
@@ -20,7 +21,6 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private List<BinaryTreeVisualizerNode> _nodes;
         public int xOffset = 0;
         public int yOffset = 0;
-        private int hS;
         private int _width = 0;
         private int _mouseX = 0;
         private int _mouseY = 0;
@@ -40,8 +40,8 @@ namespace University_ModernProgrammingTechnologies_Lab1
             Parent = parent;
             parent.Controls.Add(this);
 
-            Width = Parent.Width;
-            Height = Parent.Height;
+            Size = new Size(Parent.Width, Parent.Height);
+            DoubleBuffered = true;
 
             Paint += BinaryTreeVisualizer_Paint;
             MouseWheel += BinaryTreeVisualizer_MouseWheel;
@@ -49,11 +49,8 @@ namespace University_ModernProgrammingTechnologies_Lab1
             KeyDown += BinaryTreeVisualizer_KeyDown;
             KeyUp += BinaryTreeVisualizer_KeyUp;
 
-            typeof(BinaryTreeVisualizer).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
-            | BindingFlags.Instance | BindingFlags.NonPublic, null,
-            this, new object[] { true });
-
             CreateNodes();
+            UpdateAndDraw();
         }
 
         private void BinaryTreeVisualizer_KeyUp(object sender, KeyEventArgs e)
@@ -77,6 +74,8 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
                 xOffset += _mouseOffsetX;
                 yOffset += _mouseOffsetY;
+
+                UpdateAndDraw();
             }
 
             _mouseX = e.X;
@@ -88,10 +87,10 @@ namespace University_ModernProgrammingTechnologies_Lab1
             if (_shiftPressed)
             {
                 if (e.Delta > 0)
-                    widthMultiplier += 10;
+                    widthScale += 10;
                 else
-                    if (widthMultiplier > 0)
-                    widthMultiplier -= 10;
+                    if (widthScale > 0)
+                    widthScale -= 10;
             }
             else
             {
@@ -101,19 +100,19 @@ namespace University_ModernProgrammingTechnologies_Lab1
                     if (BinaryTreeVisualizerNode.nodeSize > 2)
                     BinaryTreeVisualizerNode.nodeSize -= 2;
             }
+
+            UpdateAndDraw();
         }
 
         private void BinaryTreeVisualizer_Paint(object sender, PaintEventArgs e)
         {
             Draw(e.Graphics);
-            Invalidate();
         }
 
         public void Draw(Graphics graphics)
         {
-            hS = BinaryTreeVisualizerNode.nodeSize / 2;
+            int hS = BinaryTreeVisualizerNode.nodeSize / 2;
 
-            RecalculateNodes();
             //connectiong lines drawing
             for (int i = 0; i < _nodes.Count; i++)
             {
@@ -172,28 +171,32 @@ namespace University_ModernProgrammingTechnologies_Lab1
             }
         }
 
-        private void RecalculateNodes()
+        private void RecalculateNodesPosition()
         {
-            _width = BinaryTreeVisualizerNode.nodeSize * widthMultiplier;
+            _width = BinaryTreeVisualizerNode.nodeSize * widthScale;
 
             _nodes[0].X = InterpolateX(_nodes[0].TreeItem.Item.C, _tree.MinValue, _tree.MaxValue, 0, _width) + Width / 2;
             _nodes[0].Y = BinaryTreeVisualizerNode.nodeSize;
-            //_nodes[0].Width = BinaryTreeVisualizerNode.nodeSize;
-            //_nodes[0].Height = BinaryTreeVisualizerNode.nodeSize;
-            //_nodes[0].Left = _nodes[0].X;
-            //_nodes[0].Top = _nodes[0].Y;
+            _nodes[0].Width = BinaryTreeVisualizerNode.nodeSize;
+            _nodes[0].Height = BinaryTreeVisualizerNode.nodeSize;
+            _nodes[0].Left = _nodes[0].X + xOffset;
+            _nodes[0].Top = _nodes[0].Y + yOffset;
 
             for (int i = 1; i < _nodes.Count; i++)
             {
                 _nodes[i].X = InterpolateX(_nodes[i].TreeItem.Item.C, _tree.MinValue, _tree.MaxValue, 0, _width) + Width / 2;
                 _nodes[i].Y = _nodes[i].ParentNode.Y + BinaryTreeVisualizerNode.nodeSize * 2;
-                //_nodes[i].Width = BinaryTreeVisualizerNode.nodeSize;
-                //_nodes[i].Height = BinaryTreeVisualizerNode.nodeSize;
-                //_nodes[i].Left = _nodes[i].X;
-                //_nodes[i].Top = _nodes[i].Y;
+                _nodes[i].Width = BinaryTreeVisualizerNode.nodeSize;
+                _nodes[i].Height = BinaryTreeVisualizerNode.nodeSize;
+                _nodes[i].Left = _nodes[i].X + xOffset;
+                _nodes[i].Top = _nodes[i].Y + yOffset;
             }
+        }
 
-            Update();
+        private void UpdateAndDraw()
+        {
+            RecalculateNodesPosition();
+            Refresh();
         }
 
         private int InterpolateX(int x, int x1, int x2, int y1, int y2)

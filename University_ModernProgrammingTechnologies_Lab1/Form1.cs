@@ -30,7 +30,6 @@ namespace University_ModernProgrammingTechnologies_Lab1
             InitBinaryTree();
             InitVisualizer();
 
-            splitContainer1.Select();
             cbParam.SelectedIndex = 1;
         }
 
@@ -43,11 +42,12 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private void InitVisualizer()
         {
             _visualizer = new BinaryTreeVisualizer(pictureBox1 ,_binaryTree);
+            _visualizer.Select();
         }
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            splitContainer1.Select();
+            _visualizer.Select();
         }
 
         private void cbParam_SelectedIndexChanged(object sender, EventArgs e)
