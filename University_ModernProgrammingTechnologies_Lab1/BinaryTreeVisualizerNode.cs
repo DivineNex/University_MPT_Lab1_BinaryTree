@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,22 +10,56 @@ namespace University_ModernProgrammingTechnologies_Lab1
 {
     internal class BinaryTreeVisualizerNode : Control
     {
-        public static int node_size = 25;
+        public static int nodeSize = 25;
 
-        public int X { get; set; }
-        public int Y { get; set; }
+        private int x;
+
+        public int X
+        {
+            get { return x; }
+            set { x = value; Left = value; }
+        }
+
+        private int y;
+
+        public int Y
+        {
+            get { return y; }
+            set { y = value; Top = value; }
+        }
+
+
         public BinaryTreeItem<RadialBearing> TreeItem { get; private set; }
         public BinaryTreeVisualizerNode LeftNode { get; set; } = null;
         public BinaryTreeVisualizerNode RightNode { get; set; } = null;
         public BinaryTreeVisualizerNode ParentNode { get; private set; } = null;
 
+        private Pen _pen;
 
-        public BinaryTreeVisualizerNode(BinaryTreeItem<RadialBearing> treeItem, BinaryTreeVisualizerNode parentNode)
+
+        public BinaryTreeVisualizerNode(BinaryTreeVisualizer visualizer, BinaryTreeItem<RadialBearing> treeItem, BinaryTreeVisualizerNode parentNode)
         {
-            Width = node_size;
-            Height = node_size;
+            Width = nodeSize;
+            Height = nodeSize;
             TreeItem = treeItem;
             ParentNode = parentNode;
+
+            //visualizer.Controls.Add(this);
+            //Parent = visualizer;
+
+            _pen = new Pen(Color.DarkGray);
+            _pen.DashPattern = new float[] { 2, 2 };
+
+            MouseMove += BinaryTreeVisualizerNode_MouseMove;
+
+            Left = X;
+            Top = Y;
+        }
+
+        private void BinaryTreeVisualizerNode_MouseMove(object sender, MouseEventArgs e)
+        {
+            MessageBox.Show("lol");
+            //_graphics.DrawRectangle(_pen, X, Y, Width, Height);
         }
     }
 }
