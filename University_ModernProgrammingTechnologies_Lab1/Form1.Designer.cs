@@ -75,7 +75,6 @@
             this.cbParam.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.cbParam.FormattingEnabled = true;
             this.cbParam.Items.AddRange(new object[] {
-            "Designation",
             "d",
             "D",
             "B",
@@ -109,6 +108,7 @@
             this.Text = "Lab1";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.formMain_Load);
+            this.Resize += new System.EventHandler(this.formMain_Resize);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);

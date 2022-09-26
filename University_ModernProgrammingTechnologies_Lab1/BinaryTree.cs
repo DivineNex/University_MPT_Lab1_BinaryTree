@@ -9,13 +9,13 @@ namespace University_ModernProgrammingTechnologies_Lab1
 {
     internal abstract class BinaryTree<T>
     {
-        private protected const string ELEMENT_EXIST_MESSAGE = "The element has already in the tree";
+        private protected const string ELEMENT_EXIST_MESSAGE = "The element is already in the tree";
         private protected BinaryTreeItem<T> _rootItem;
         private protected int _maxValue = Int32.MinValue;
         private protected int _minValue = Int32.MaxValue;
 
-        public int MaxValue { get { return _maxValue; } }
-        public int MinValue { get { return _minValue; } }
+        public int MaxValue { get { return _maxValue; } private protected set { _maxValue = value; } }
+        public int MinValue { get { return _minValue; } private protected set { _minValue = value; } }
 
         public int ItemCount { get; private protected set; } = 0;
         public BinaryTreeItem<T> RootItem { get { return _rootItem; } }
@@ -33,6 +33,6 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         public abstract void Search();
 
-        public abstract void Clear();
+        public abstract void Clear(BinaryTreeItem<T> item);
     }
 }

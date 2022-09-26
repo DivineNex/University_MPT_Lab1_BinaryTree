@@ -13,15 +13,14 @@ namespace University_ModernProgrammingTechnologies_Lab1
     internal class BinaryTreeVisualizer : Control
     {
         public static int widthScale = 30;
-
+        private int _width;
         private Pen _pen;
         private SolidBrush _brush;
         private SolidBrush _fontBrush;
-        private BinaryTree<RadialBearing> _tree;
+        private RadialBearingBinaryTree _tree;
         private List<BinaryTreeVisualizerNode> _nodes;
         public int xOffset = 0;
         public int yOffset = 0;
-        private int _width = 0;
         private int _mouseX = 0;
         private int _mouseY = 0;
         private bool _shiftPressed = false;
@@ -50,6 +49,12 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
             CreateNodes();
             UpdateAndDraw();
+        }
+
+        public void UpdateAndDraw()
+        {
+            RecalculateNodesPosition();
+            Refresh();
         }
 
         private void BinaryTreeVisualizer_MouseClick(object sender, MouseEventArgs e)
@@ -123,28 +128,42 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         private void RecalculateNodesPosition()
         {
+            int itemValue = 0;
+
             _width = BinaryTreeVisualizerNode.nodeSize * widthScale;
 
-            _nodes[0].X = InterpolateX(_nodes[0].TreeItem.Item.C, _tree.MinValue, _tree.MaxValue, 0, _width) + Width / 2;
-            _nodes[0].Y = BinaryTreeVisualizerNode.nodeSize;
-            _nodes[0].Width = BinaryTreeVisualizerNode.nodeSize;
-            _nodes[0].Height = BinaryTreeVisualizerNode.nodeSize;
-            _nodes[0].Location = new Point(_nodes[0].X + xOffset, _nodes[0].Y + yOffset);
-
-            for (int i = 1; i < _nodes.Count; i++)
+            for (int i = 0; i < _nodes.Count; i++)
             {
-                _nodes[i].X = InterpolateX(_nodes[i].TreeItem.Item.C, _tree.MinValue, _tree.MaxValue, 0, _width) + Width / 2;
-                _nodes[i].Y = _nodes[i].ParentNode.Y + BinaryTreeVisualizerNode.nodeSize * 2;
+                switch (_tree.bearingParam)
+                {
+                    case BearingParam.d:
+                        itemValue = _nodes[i].TreeItem.Item.d;
+                        break;
+                    case BearingParam.D:
+                        itemValue = _nodes[i].TreeItem.Item.D;
+                        break;
+                    case BearingParam.B:
+                        itemValue = _nodes[i].TreeItem.Item.B;
+                        break;
+                    case BearingParam.C:
+                        itemValue = _nodes[i].TreeItem.Item.C;
+                        break;
+                    case BearingParam.C0:
+                        itemValue = _nodes[i].TreeItem.Item.C0;
+                        break;
+                    default:
+                        break;
+                }
+
+                _nodes[i].X = InterpolateX(itemValue, _tree.MinValue, _tree.MaxValue, 0, _width) + Parent.Width / 2;
+                if(i == 0)
+                    _nodes[0].Y = BinaryTreeVisualizerNode.nodeSize;
+                else
+                    _nodes[i].Y = _nodes[i].ParentNode.Y + BinaryTreeVisualizerNode.nodeSize * 2;
                 _nodes[i].Width = BinaryTreeVisualizerNode.nodeSize;
                 _nodes[i].Height = BinaryTreeVisualizerNode.nodeSize;
                 _nodes[i].Location = new Point(_nodes[i].X + xOffset, _nodes[i].Y + yOffset);
             }
-        }
-
-        private void UpdateAndDraw()
-        {
-            RecalculateNodesPosition();
-            Refresh();
         }
 
         private void BinaryTreeVisualizer_KeyUp(object sender, KeyEventArgs e)
@@ -232,7 +251,30 @@ namespace University_ModernProgrammingTechnologies_Lab1
                                                           BinaryTreeVisualizerNode.nodeSize));
 
                 Font font = new Font(Name = "Arial", BinaryTreeVisualizerNode.nodeSize / 3.5f);
-                string valueString = _nodes[i].TreeItem.Item.C.ToString();
+
+                string valueString = _nodes[i].TreeItem.Item.d.ToString();
+                switch (_tree.bearingParam) 
+                {
+                    case BearingParam.d:
+                        valueString = _nodes[i].TreeItem.Item.d.ToString();
+                        break;
+                    case BearingParam.D:
+                        valueString = _nodes[i].TreeItem.Item.D.ToString();
+                        break;
+                    case BearingParam.B:
+                        valueString = _nodes[i].TreeItem.Item.B.ToString();
+                        break;
+                    case BearingParam.C:
+                        valueString = _nodes[i].TreeItem.Item.C.ToString();
+                        break;
+                    case BearingParam.C0:
+                        valueString = _nodes[i].TreeItem.Item.C0.ToString();
+                        break;
+                    default:
+                        break;
+                }
+
+
                 SizeF stringSize = graphics.MeasureString(valueString, font);
                 PointF stringLocation = new PointF(_nodes[i].X + xOffset + BinaryTreeVisualizerNode.nodeSize / 2 - stringSize.Width / 2,
                                                    _nodes[i].Y + yOffset + BinaryTreeVisualizerNode.nodeSize / 2 - stringSize.Height / 2);

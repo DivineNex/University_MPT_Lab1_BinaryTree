@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BearingParam.cs" />
     <Compile Include="BinaryTree.cs" />
     <Compile Include="BinaryTreeItem.cs" />
     <Compile Include="BinaryTreeVisualizer.cs">

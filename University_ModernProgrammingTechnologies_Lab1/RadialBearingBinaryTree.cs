@@ -14,21 +14,51 @@ namespace University_ModernProgrammingTechnologies_Lab1
 {
     internal sealed class RadialBearingBinaryTree : BinaryTree<RadialBearing>
     {
-        public override void Clear()
+        public BearingParam bearingParam { get; private set; } = BearingParam.None;
+
+        public override void Clear(BinaryTreeItem<RadialBearing> item)
         {
-            
+            if (item.leftItem != null)
+                Clear(item.leftItem);
+            if (item.rightItem != null)
+                Clear(item.rightItem);
+
+            item = null;
         }
 
         public override void Insert(RadialBearing radialBearing)
         {
             BinaryTreeItem<RadialBearing> binaryTreeItem = new BinaryTreeItem<RadialBearing>(radialBearing);
 
+            int paramValue = 0;
+
+            switch (bearingParam)
+            {
+                case BearingParam.d:
+                    paramValue = radialBearing.d;
+                    break;
+                case BearingParam.D:
+                    paramValue = radialBearing.D;
+                    break;
+                case BearingParam.B:
+                    paramValue = radialBearing.B;
+                    break;
+                case BearingParam.C:
+                    paramValue = radialBearing.C;
+                    break;
+                case BearingParam.C0:
+                    paramValue = radialBearing.C0;
+                    break;
+                default:
+                    break;
+            }
+
             if (_rootItem == null)
             {
                 _rootItem = binaryTreeItem;
                 ItemCount++;
-                _minValue = binaryTreeItem.Item.C;
-                _maxValue = binaryTreeItem.Item.C;
+                _minValue = paramValue;
+                _maxValue = paramValue;
                 return;
             }
 
@@ -47,7 +77,36 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         private protected override void _Insert(BinaryTreeItem<RadialBearing> currentBearing, BinaryTreeItem<RadialBearing> newBearing)
         {
-            if (newBearing.Item.C < currentBearing.Item.C)
+            int currentBearingParamValue = 0;
+            int newBearingParamValue = 0;
+
+            switch (bearingParam)
+            {
+                case BearingParam.d:
+                    currentBearingParamValue = currentBearing.Item.d;
+                    newBearingParamValue = newBearing.Item.d;
+                    break;
+                case BearingParam.D:
+                    currentBearingParamValue = currentBearing.Item.D;
+                    newBearingParamValue = newBearing.Item.D;
+                    break;
+                case BearingParam.B:
+                    currentBearingParamValue = currentBearing.Item.B;
+                    newBearingParamValue = newBearing.Item.B;
+                    break;
+                case BearingParam.C:
+                    currentBearingParamValue = currentBearing.Item.C;
+                    newBearingParamValue = newBearing.Item.C;
+                    break;
+                case BearingParam.C0:
+                    currentBearingParamValue = currentBearing.Item.C0;
+                    newBearingParamValue = newBearing.Item.C0;
+                    break;
+                default:
+                    break;
+            }
+
+            if (newBearingParamValue < currentBearingParamValue)
             {
                 if (currentBearing.leftItem == null)
                 {
@@ -57,7 +116,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
                 else 
                     _Insert(currentBearing.leftItem, newBearing);
             }
-            else if (newBearing.Item.C > currentBearing.Item.C)
+            else if (newBearingParamValue > currentBearingParamValue)
             {
                 if (currentBearing.rightItem == null)
                 {
@@ -69,21 +128,28 @@ namespace University_ModernProgrammingTechnologies_Lab1
             }
             else
             {
-                MessageBox.Show(ELEMENT_EXIST_MESSAGE);
+                //MessageBox.Show(ELEMENT_EXIST_MESSAGE);
             }
 
-            if (newBearing.Item.C < _minValue)
+            if (newBearingParamValue < _minValue)
             {
-                _minValue = newBearing.Item.C;
+                _minValue = newBearingParamValue;
             }
-            else if (newBearing.Item.C > _maxValue)
+            else if (newBearingParamValue > _maxValue)
             {
-                _maxValue = newBearing.Item.C;
+                _maxValue = newBearingParamValue;
             }
         }
 
-        public void BuildBinaryTreeFromDBTable(SqlConnection connection, string tableName)
+        public void BuildBinaryTreeFromDBTable(SqlConnection connection, string tableName, BearingParam param)
         {
+            if (_rootItem != null)
+                Clear(_rootItem);
+
+            MinValue = 0;
+            MaxValue = 0;
+
+            bearingParam = param;
             string oString = $"Select * from {tableName}";
             SqlCommand oCmd = new SqlCommand(oString, connection);
             if (connection.State != ConnectionState.Open)

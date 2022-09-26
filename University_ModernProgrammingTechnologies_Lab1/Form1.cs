@@ -29,14 +29,13 @@ namespace University_ModernProgrammingTechnologies_Lab1
             _dBManager = new DBManager();
             InitBinaryTree();
             InitVisualizer();
-
-            cbParam.SelectedIndex = 1;
+            cbParam.SelectedIndex = 0;
         }
 
         private void InitBinaryTree()
         {
             _binaryTree = new RadialBearingBinaryTree();
-            _binaryTree.BuildBinaryTreeFromDBTable(_dBManager.connection, "RadialBearings");
+            _binaryTree.BuildBinaryTreeFromDBTable(_dBManager.connection, "RadialBearings", BearingParam.d);
         }
 
         private void InitVisualizer()
@@ -53,6 +52,34 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private void cbParam_SelectedIndexChanged(object sender, EventArgs e)
         {
             _visualizer.Select();
+
+            switch (cbParam.SelectedIndex)
+            {
+                case 0:
+                    _binaryTree.BuildBinaryTreeFromDBTable(_dBManager.connection, "RadialBearings", BearingParam.d);
+                    break;
+                case 1:
+                    _binaryTree.BuildBinaryTreeFromDBTable(_dBManager.connection, "RadialBearings", BearingParam.D);
+                    break;
+                case 2:
+                    _binaryTree.BuildBinaryTreeFromDBTable(_dBManager.connection, "RadialBearings", BearingParam.B);
+                    break;
+                case 3:
+                    _binaryTree.BuildBinaryTreeFromDBTable(_dBManager.connection, "RadialBearings", BearingParam.C);
+                    break;
+                case 4:
+                    _binaryTree.BuildBinaryTreeFromDBTable(_dBManager.connection, "RadialBearings", BearingParam.C0);
+                    break;
+                default:
+                    break;
+            }
+
+            _visualizer.UpdateAndDraw();
+        }
+
+        private void formMain_Resize(object sender, EventArgs e)
+        {
+            _visualizer?.UpdateAndDraw();
         }
     }
 }
