@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Configuration;
 using System.Xml.Linq;
+using System.IO;
 
 namespace University_ModernProgrammingTechnologies_Lab1
 {
@@ -141,7 +142,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
             }
         }
 
-        public void BuildBinaryTreeFromDBTable(SqlConnection connection, string tableName, BearingParam param)
+        public void BuildBinaryTreeFromDBTable(SqlConnection connection, string tableName, BearingParam param, bool randomize)
         {
             if (_rootItem != null)
             {
@@ -153,7 +154,13 @@ namespace University_ModernProgrammingTechnologies_Lab1
             MaxValue = 0;
 
             bearingParam = param;
-            string oString = $"Select * from {tableName}";
+
+            string oString = "";
+            if (randomize)
+                oString = $"SELECT * FROM {tableName} ORDER BY NEWID()";
+            else
+                oString = $"Select * from {tableName}";
+
             SqlCommand oCmd = new SqlCommand(oString, connection);
             if (connection.State != ConnectionState.Open)
                 connection.Open();

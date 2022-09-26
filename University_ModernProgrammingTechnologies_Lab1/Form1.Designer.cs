@@ -32,7 +32,7 @@
             this.lbParam = new System.Windows.Forms.Label();
             this.cbParam = new System.Windows.Forms.ComboBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.cbRandomizeDB = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -51,7 +51,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.button1);
+            this.splitContainer1.Panel1.Controls.Add(this.cbRandomizeDB);
             this.splitContainer1.Panel1.Controls.Add(this.lbParam);
             this.splitContainer1.Panel1.Controls.Add(this.cbParam);
             // 
@@ -98,15 +98,18 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
             // 
-            // button1
+            // cbRandomizeDB
             // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(14, 47);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(259, 28);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Randomize DB and rebuild";
-            this.button1.UseVisualStyleBackColor = true;
+            this.cbRandomizeDB.AutoSize = true;
+            this.cbRandomizeDB.Checked = true;
+            this.cbRandomizeDB.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbRandomizeDB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cbRandomizeDB.Location = new System.Drawing.Point(14, 49);
+            this.cbRandomizeDB.Name = "cbRandomizeDB";
+            this.cbRandomizeDB.Size = new System.Drawing.Size(205, 24);
+            this.cbRandomizeDB.TabIndex = 2;
+            this.cbRandomizeDB.Text = "Randomize rows on build";
+            this.cbRandomizeDB.UseVisualStyleBackColor = true;
             // 
             // formMain
             // 
@@ -137,7 +140,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label lbParam;
         private System.Windows.Forms.ComboBox cbParam;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckBox cbRandomizeDB;
     }
 }
 

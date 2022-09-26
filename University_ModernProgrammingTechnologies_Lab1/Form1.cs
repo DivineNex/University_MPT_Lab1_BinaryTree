@@ -55,19 +55,19 @@ namespace University_ModernProgrammingTechnologies_Lab1
             switch (cbParam.SelectedIndex)
             {
                 case 0:
-                    _binaryTree.BuildBinaryTreeFromDBTable(_dBManager.connection, "RadialBearings", BearingParam.d);
+                    _binaryTree.BuildBinaryTreeFromDBTable(_dBManager.connection, "RadialBearings", BearingParam.d, cbRandomizeDB.Checked);
                     break;
                 case 1:
-                    _binaryTree.BuildBinaryTreeFromDBTable(_dBManager.connection, "RadialBearings", BearingParam.D);
+                    _binaryTree.BuildBinaryTreeFromDBTable(_dBManager.connection, "RadialBearings", BearingParam.D, cbRandomizeDB.Checked);
                     break;
                 case 2:
-                    _binaryTree.BuildBinaryTreeFromDBTable(_dBManager.connection, "RadialBearings", BearingParam.B);
+                    _binaryTree.BuildBinaryTreeFromDBTable(_dBManager.connection, "RadialBearings", BearingParam.B, cbRandomizeDB.Checked);
                     break;
                 case 3:
-                    _binaryTree.BuildBinaryTreeFromDBTable(_dBManager.connection, "RadialBearings", BearingParam.C);
+                    _binaryTree.BuildBinaryTreeFromDBTable(_dBManager.connection, "RadialBearings", BearingParam.C, cbRandomizeDB.Checked);
                     break;
                 case 4:
-                    _binaryTree.BuildBinaryTreeFromDBTable(_dBManager.connection, "RadialBearings", BearingParam.C0);
+                    _binaryTree.BuildBinaryTreeFromDBTable(_dBManager.connection, "RadialBearings", BearingParam.C0, cbRandomizeDB.Checked);
                     break;
                 default:
                     break;
