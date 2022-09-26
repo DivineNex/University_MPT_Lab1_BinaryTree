@@ -29,7 +29,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
             _dBManager = new DBManager();
             InitBinaryTree();
             InitVisualizer();
-            cbParam.SelectedIndex = 0;
+            cmbParam.SelectedIndex = 0;
         }
 
         private void InitBinaryTree()
@@ -52,7 +52,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
         {
             _visualizer.Select();
 
-            switch (cbParam.SelectedIndex)
+            switch (cmbParam.SelectedIndex)
             {
                 case 0:
                     _binaryTree.BuildBinaryTreeFromDBTable(_dBManager.connection, "RadialBearings", BearingParam.d, cbRandomizeDB.Checked);
@@ -80,6 +80,40 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private void formMain_Resize(object sender, EventArgs e)
         {
             _visualizer?.UpdateAndDraw();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            _visualizer.ResetSearching();
+        }
+
+        private void tbMainParam_TextChanged(object sender, EventArgs e)
+        {
+            _visualizer.ResetSearching();
+
+            if (int.TryParse(tbMainParam.Text, out int res))
+            {
+                switch (cmbParam.SelectedIndex)
+                {
+                    case 0:
+                        _binaryTree.Search(_binaryTree.RootItem, new int[] { res }, BearingParam.d);
+                        break;
+                    case 1:
+                        _binaryTree.Search(_binaryTree.RootItem, new int[] { res }, BearingParam.D);
+                        break;
+                    case 2:
+                        _binaryTree.Search(_binaryTree.RootItem, new int[] { res }, BearingParam.B);
+                        break;
+                    case 3:
+                        _binaryTree.Search(_binaryTree.RootItem, new int[] { res }, BearingParam.C);
+                        break;
+                    case 4:
+                        _binaryTree.Search(_binaryTree.RootItem, new int[] { res }, BearingParam.C0);
+                        break;
+                }
+            }
+            _visualizer.IsSearching = true;
+            _visualizer.UpdateAndDraw();
         }
     }
 }

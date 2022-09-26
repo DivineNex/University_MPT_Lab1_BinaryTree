@@ -71,9 +71,42 @@ namespace University_ModernProgrammingTechnologies_Lab1
             
         }
 
-        public override void Search()
+        public void Search(BinaryTreeItem<RadialBearing> item, int[] values, params BearingParam[] bearingParams)
         {
-            
+            if (values.Length == bearingParams.Length)
+            {
+                for (int i = 0; i < bearingParams.Length; i++)
+                {
+                    switch (bearingParams[i])
+                    {
+                        case BearingParam.d:
+                            if (item.Item.d != values[i])
+                                item.Active = false;
+                            break;
+                        case BearingParam.D:
+                            if (item.Item.D != values[i])
+                                item.Active = false;
+                            break;
+                        case BearingParam.B:
+                            if (item.Item.B != values[i])
+                                item.Active = false;
+                            break;
+                        case BearingParam.C:
+                            if (item.Item.C != values[i])
+                                item.Active = false;
+                            break;
+                        case BearingParam.C0:
+                            if (item.Item.C0 != values[i])
+                                item.Active = false;
+                            break;
+                    }
+                }
+
+                if (item.leftItem != null)
+                    Search(item.leftItem, values, bearingParams);
+                if (item.rightItem != null)
+                    Search(item.rightItem, values, bearingParams);
+            }
         }
 
         private protected override void _Insert(BinaryTreeItem<RadialBearing> currentBearing, BinaryTreeItem<RadialBearing> newBearing)
@@ -181,6 +214,16 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
                 connection.Close();
             }
+        }
+
+        public void ResetSearch(BinaryTreeItem<RadialBearing> item)
+        {
+            if (item != null)
+                item.Active = true;
+            if (item.leftItem != null)
+                ResetSearch(item.leftItem);
+            if (item.rightItem != null)
+                ResetSearch(item.rightItem);
         }
     }
 }

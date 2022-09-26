@@ -28,6 +28,8 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private bool _infoPanelShowing = false;
         private BinaryTreeVisualizerNode _nodeInfoPanelShowing = null;
 
+        public bool IsSearching { get; set; } = false;
+
         public BinaryTreeVisualizer(Control parent, RadialBearingBinaryTree binaryTree)
         {
             _tree = binaryTree;
@@ -248,6 +250,14 @@ namespace University_ModernProgrammingTechnologies_Lab1
             //also drawing node label
             for (int i = 0; i < _nodes.Count; i++)
             {
+                if (IsSearching)
+                {
+                    if (_nodes[i].TreeItem.Active)
+                        _brush.Color = Color.Green;
+                    else
+                        _brush.Color = Color.Red;
+                }
+
                 graphics.FillEllipse(_brush, new Rectangle(_nodes[i].X + xOffset, _nodes[i].Y + yOffset,
                                                           BinaryTreeVisualizerNode.nodeSize,
                                                           BinaryTreeVisualizerNode.nodeSize));
@@ -315,6 +325,19 @@ namespace University_ModernProgrammingTechnologies_Lab1
                 _infoPanelShowing = true;
                 Refresh();
             }
+        }
+
+        private void ResetBrushColor()
+        {
+            _brush.Color = Color.FromArgb(210, 185, 255);
+        }
+
+        public void ResetSearching()
+        {
+            _tree.ResetSearch(_tree.RootItem);
+            ResetBrushColor();
+            IsSearching = false;
+            UpdateAndDraw();
         }
     }
 }

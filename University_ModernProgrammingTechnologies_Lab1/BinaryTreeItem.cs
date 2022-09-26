@@ -11,6 +11,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
         public T Item { get; private set; }
         public BinaryTreeItem<T> leftItem;
         public BinaryTreeItem<T> rightItem;
+        public bool Active { get; set; } = true;
 
         public BinaryTreeItem(T item)
         {
