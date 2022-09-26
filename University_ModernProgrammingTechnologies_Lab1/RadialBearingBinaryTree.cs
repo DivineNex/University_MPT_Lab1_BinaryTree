@@ -16,12 +16,12 @@ namespace University_ModernProgrammingTechnologies_Lab1
     {
         public BearingParam bearingParam { get; private set; } = BearingParam.None;
 
-        public override void Clear(BinaryTreeItem<RadialBearing> item)
+        public override void Clear(ref BinaryTreeItem<RadialBearing> item)
         {
             if (item.leftItem != null)
-                Clear(item.leftItem);
+                Clear(ref item.leftItem);
             if (item.rightItem != null)
-                Clear(item.rightItem);
+                Clear(ref item.rightItem);
 
             item = null;
         }
@@ -144,7 +144,10 @@ namespace University_ModernProgrammingTechnologies_Lab1
         public void BuildBinaryTreeFromDBTable(SqlConnection connection, string tableName, BearingParam param)
         {
             if (_rootItem != null)
-                Clear(_rootItem);
+            {
+                Clear(ref _rootItem);
+                ItemCount = 0;
+            }     
 
             MinValue = 0;
             MaxValue = 0;

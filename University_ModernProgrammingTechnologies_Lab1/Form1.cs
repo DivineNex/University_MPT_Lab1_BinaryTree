@@ -35,7 +35,6 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private void InitBinaryTree()
         {
             _binaryTree = new RadialBearingBinaryTree();
-            _binaryTree.BuildBinaryTreeFromDBTable(_dBManager.connection, "RadialBearings", BearingParam.d);
         }
 
         private void InitVisualizer()
@@ -74,6 +73,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
                     break;
             }
 
+            _visualizer.CreateNodes();
             _visualizer.UpdateAndDraw();
         }
 

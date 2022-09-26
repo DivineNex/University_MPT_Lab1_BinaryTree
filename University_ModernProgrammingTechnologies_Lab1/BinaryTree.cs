@@ -33,6 +33,6 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         public abstract void Search();
 
-        public abstract void Clear(BinaryTreeItem<T> item);
+        public abstract void Clear(ref BinaryTreeItem<T> item);
     }
 }

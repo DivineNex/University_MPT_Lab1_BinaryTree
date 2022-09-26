@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -46,15 +47,19 @@ namespace University_ModernProgrammingTechnologies_Lab1
             MouseMove += BinaryTreeVisualizer_MouseMove;
             KeyDown += BinaryTreeVisualizer_KeyDown;
             KeyUp += BinaryTreeVisualizer_KeyUp;
-
-            CreateNodes();
-            UpdateAndDraw();
         }
 
         public void UpdateAndDraw()
         {
             RecalculateNodesPosition();
             Refresh();
+        }
+
+        private void Clear()
+        {
+            foreach (var node in _nodes)
+                node.Dispose();
+            _nodes.Clear();
         }
 
         private void BinaryTreeVisualizer_MouseClick(object sender, MouseEventArgs e)
@@ -99,7 +104,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         public void CreateNodes()
         {
-            _nodes.Clear();
+            Clear();
 
             //root node creation
             BinaryTreeVisualizerNode rootNode = new BinaryTreeVisualizerNode(this, _tree.RootItem, null);
