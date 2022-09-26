@@ -25,29 +25,44 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private int _mouseX = 0;
         private int _mouseY = 0;
         private bool _shiftPressed = false;
+        private bool _infoPanelShowing = false;
+        private BinaryTreeVisualizerNode _nodeInfoPanelShowing = null;
 
         public BinaryTreeVisualizer(Control parent, RadialBearingBinaryTree binaryTree)
         {
             _tree = binaryTree;
             _pen = new Pen(Color.DarkGray);
             _brush = new SolidBrush(Color.FromArgb(210, 185, 255));
-            _fontBrush = new SolidBrush(Color.FromArgb(80, 80, 80));
+            _fontBrush = new SolidBrush(Color.Black);
             _nodes = new List<BinaryTreeVisualizerNode>();
 
             Parent = parent;
             parent.Controls.Add(this);
 
             Size = new Size(Parent.Width, Parent.Height);
-            //DoubleBuffered = true;
 
             Paint += BinaryTreeVisualizer_Paint;
             MouseWheel += BinaryTreeVisualizer_MouseWheel;
+            MouseClick += BinaryTreeVisualizer_MouseClick;
             MouseMove += BinaryTreeVisualizer_MouseMove;
             KeyDown += BinaryTreeVisualizer_KeyDown;
             KeyUp += BinaryTreeVisualizer_KeyUp;
 
             CreateNodes();
             UpdateAndDraw();
+        }
+
+        private void BinaryTreeVisualizer_MouseClick(object sender, MouseEventArgs e)
+        {
+            _nodeInfoPanelShowing = null;
+            if (e.Button != MouseButtons.Middle)
+            {
+                if (_infoPanelShowing)
+                {
+                    _infoPanelShowing = false;
+                    Refresh();
+                }
+            }
         }
 
         private void BinaryTreeVisualizer_Paint(object sender, PaintEventArgs e)
@@ -70,35 +85,11 @@ namespace University_ModernProgrammingTechnologies_Lab1
         public void Draw(Graphics graphics)
         {
             graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            int hS = BinaryTreeVisualizerNode.nodeSize / 2;
 
-            //connectiong lines drawing
-            for (int i = 0; i < _nodes.Count; i++)
-            {
-                if (_nodes[i].ParentNode != null)
-                    graphics.DrawLine(_pen, _nodes[i].X + hS + xOffset,
-                                       _nodes[i].Y + hS + yOffset,
-                                       _nodes[i].ParentNode.X + hS + xOffset,
-                                       _nodes[i].ParentNode.Y + hS + yOffset);
-            }
-
-            //nodes drawing (also nodes labels)
-            for (int i = 0; i < _nodes.Count; i++)
-            {
-                graphics.FillEllipse(_brush, new Rectangle(_nodes[i].X + xOffset, _nodes[i].Y + yOffset,
-                                                          BinaryTreeVisualizerNode.nodeSize,
-                                                          BinaryTreeVisualizerNode.nodeSize));
-                graphics.DrawEllipse(_pen, new Rectangle(_nodes[i].X + xOffset, _nodes[i].Y + yOffset,
-                                                          BinaryTreeVisualizerNode.nodeSize,
-                                                          BinaryTreeVisualizerNode.nodeSize));
-
-                Font font = new Font(Name = "Times New Roman", BinaryTreeVisualizerNode.nodeSize / 3.5f);
-                string valueString = _nodes[i].TreeItem.Item.C.ToString();
-                SizeF stringSize = graphics.MeasureString(valueString, font);
-                PointF stringLocation = new PointF(_nodes[i].X + xOffset + BinaryTreeVisualizerNode.nodeSize / 2 - stringSize.Width / 2,
-                                                   _nodes[i].Y + yOffset + BinaryTreeVisualizerNode.nodeSize / 2 - stringSize.Height / 2);
-                graphics.DrawString(valueString, font, _fontBrush, stringLocation);
-            }
+            DrawConnectionLines(graphics);
+            DrawNodes(graphics);
+            if (_nodeInfoPanelShowing != null)
+                DrawNodeInfoPanel(graphics, _nodeInfoPanelShowing);
         }
 
         public void CreateNodes()
@@ -174,7 +165,6 @@ namespace University_ModernProgrammingTechnologies_Lab1
             {
                 xOffset += e.X - _mouseX;
                 yOffset += e.Y - _mouseY;
-
                 UpdateAndDraw();
             }
 
@@ -207,6 +197,77 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private int InterpolateX(int x, int x1, int x2, int y1, int y2)
         {
             return y1 + (y2 - y1) * (x - x1) / (x2 - x1);
+        }
+
+        public void DrawNodeInfoPanel(BinaryTreeVisualizerNode node)
+        {
+            _nodeInfoPanelShowing = node;
+            Refresh();
+        }
+
+        private void DrawConnectionLines(Graphics graphics)
+        {
+            int hS = BinaryTreeVisualizerNode.nodeSize / 2;
+
+            for (int i = 0; i < _nodes.Count; i++)
+            {
+                if (_nodes[i].ParentNode != null)
+                    graphics.DrawLine(_pen, _nodes[i].X + hS + xOffset,
+                                       _nodes[i].Y + hS + yOffset,
+                                       _nodes[i].ParentNode.X + hS + xOffset,
+                                       _nodes[i].ParentNode.Y + hS + yOffset);
+            }
+        }
+
+        private void DrawNodes(Graphics graphics)
+        {
+            //also drawing node label
+            for (int i = 0; i < _nodes.Count; i++)
+            {
+                graphics.FillEllipse(_brush, new Rectangle(_nodes[i].X + xOffset, _nodes[i].Y + yOffset,
+                                                          BinaryTreeVisualizerNode.nodeSize,
+                                                          BinaryTreeVisualizerNode.nodeSize));
+                graphics.DrawEllipse(_pen, new Rectangle(_nodes[i].X + xOffset, _nodes[i].Y + yOffset,
+                                                          BinaryTreeVisualizerNode.nodeSize,
+                                                          BinaryTreeVisualizerNode.nodeSize));
+
+                Font font = new Font(Name = "Arial", BinaryTreeVisualizerNode.nodeSize / 3.5f);
+                string valueString = _nodes[i].TreeItem.Item.C.ToString();
+                SizeF stringSize = graphics.MeasureString(valueString, font);
+                PointF stringLocation = new PointF(_nodes[i].X + xOffset + BinaryTreeVisualizerNode.nodeSize / 2 - stringSize.Width / 2,
+                                                   _nodes[i].Y + yOffset + BinaryTreeVisualizerNode.nodeSize / 2 - stringSize.Height / 2);
+                graphics.DrawString(valueString, font, _fontBrush, stringLocation);
+            }
+        }
+
+        private void DrawNodeInfoPanel(Graphics graphics, BinaryTreeVisualizerNode node)
+        {
+            Rectangle rect = _nodeInfoPanelShowing.ClientRectangle;
+            rect.Width = BinaryTreeVisualizerNode.nodeSize * 4;
+            rect.Height = BinaryTreeVisualizerNode.nodeSize * 3;
+            rect.X = _nodeInfoPanelShowing.X + BinaryTreeVisualizerNode.nodeSize + xOffset;
+            rect.Y = _nodeInfoPanelShowing.Y - rect.Height + yOffset;
+
+            string str = $"Designation: {_nodeInfoPanelShowing.TreeItem.Item.Designation}\n" +
+                $"d: {_nodeInfoPanelShowing.TreeItem.Item.d}\n" +
+                $"D: {_nodeInfoPanelShowing.TreeItem.Item.D}\n" +
+                $"B: {_nodeInfoPanelShowing.TreeItem.Item.B}\n" +
+                $"C: {_nodeInfoPanelShowing.TreeItem.Item.C}\n" +
+                $"C0: {_nodeInfoPanelShowing.TreeItem.Item.C0}";
+
+            Font font = new Font(Name = "Arial", BinaryTreeVisualizerNode.nodeSize / 4f);
+            Point stringLocation = new Point(rect.X + rect.Width / 12, rect.Y + rect.Height / 10);
+            SolidBrush backgroundBrush = new SolidBrush(Color.LightGray);
+
+            graphics.FillRectangle(backgroundBrush, rect);
+            graphics.DrawRectangle(_pen, rect);
+            graphics.DrawString(str, font, _fontBrush, stringLocation);
+
+            if (!_infoPanelShowing)
+            {
+                _infoPanelShowing = true;
+                Refresh();
+            }
         }
     }
 }

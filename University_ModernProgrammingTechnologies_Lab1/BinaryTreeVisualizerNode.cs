@@ -23,15 +23,17 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         private Pen _pen;
         private bool cursorOnIt = false;
+        private BinaryTreeVisualizer _visualizer;
 
         public BinaryTreeVisualizerNode(BinaryTreeVisualizer visualizer, BinaryTreeItem<RadialBearing> treeItem, BinaryTreeVisualizerNode parentNode)
         {
+            _visualizer = visualizer;
             Size = new Size(nodeSize, nodeSize);
             TreeItem = treeItem;
             ParentNode = parentNode;
 
-            visualizer.Controls.Add(this);
-            Parent = visualizer;
+            _visualizer.Controls.Add(this);
+            Parent = _visualizer;
 
             _pen = new Pen(Color.Black);
             _pen.Width = 2;
@@ -64,7 +66,9 @@ namespace University_ModernProgrammingTechnologies_Lab1
         {
             if (cursorOnIt)
                 if (e.Button == MouseButtons.Left)
-                    MessageBox.Show("Clicked!");
+                {
+                    _visualizer.DrawNodeInfoPanel(this);
+                }
         }
 
         private void BinaryTreeVisualizerNode_MouseLeave(object sender, EventArgs e)
