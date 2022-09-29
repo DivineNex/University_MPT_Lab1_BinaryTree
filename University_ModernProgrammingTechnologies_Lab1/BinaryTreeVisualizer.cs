@@ -66,11 +66,11 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         private void BinaryTreeVisualizer_MouseClick(object sender, MouseEventArgs e)
         {
-            _nodeInfoPanelShowing = null;
             if (e.Button != MouseButtons.Middle)
             {
                 if (_infoPanelShowing)
                 {
+                    _nodeInfoPanelShowing = null;
                     _infoPanelShowing = false;
                     Refresh();
                 }
