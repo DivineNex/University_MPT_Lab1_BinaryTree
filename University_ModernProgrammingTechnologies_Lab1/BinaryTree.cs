@@ -29,7 +29,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         private protected abstract void _Insert(BinaryTreeItem<T> currentItem, BinaryTreeItem<T> newItem);
 
-        public abstract void Remove();
+        public abstract void RemoveItem(ref BinaryTreeItem<T> item);
 
         public abstract void Clear(ref BinaryTreeItem<T> item);
     }

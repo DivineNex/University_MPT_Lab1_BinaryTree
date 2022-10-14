@@ -29,7 +29,8 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.button1 = new System.Windows.Forms.Button();
+            this.bResetSearch = new System.Windows.Forms.Button();
+            this.bDeleteMode = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.tbMainParam = new System.Windows.Forms.TextBox();
             this.cbRandomizeDB = new System.Windows.Forms.CheckBox();
@@ -53,7 +54,8 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.button1);
+            this.splitContainer1.Panel1.Controls.Add(this.bResetSearch);
+            this.splitContainer1.Panel1.Controls.Add(this.bDeleteMode);
             this.splitContainer1.Panel1.Controls.Add(this.label1);
             this.splitContainer1.Panel1.Controls.Add(this.tbMainParam);
             this.splitContainer1.Panel1.Controls.Add(this.cbRandomizeDB);
@@ -67,16 +69,27 @@
             this.splitContainer1.SplitterDistance = 317;
             this.splitContainer1.TabIndex = 0;
             // 
-            // button1
+            // bResetSearch
             // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(14, 76);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(296, 26);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Reset search results";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.bResetSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.bResetSearch.Location = new System.Drawing.Point(14, 138);
+            this.bResetSearch.Name = "bResetSearch";
+            this.bResetSearch.Size = new System.Drawing.Size(296, 26);
+            this.bResetSearch.TabIndex = 6;
+            this.bResetSearch.Text = "Reset search results";
+            this.bResetSearch.UseVisualStyleBackColor = true;
+            this.bResetSearch.Click += new System.EventHandler(this.bResetSearch_Click);
+            // 
+            // bDeleteMode
+            // 
+            this.bDeleteMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.bDeleteMode.Location = new System.Drawing.Point(14, 106);
+            this.bDeleteMode.Name = "bDeleteMode";
+            this.bDeleteMode.Size = new System.Drawing.Size(296, 26);
+            this.bDeleteMode.TabIndex = 5;
+            this.bDeleteMode.Text = "Enter delete mode";
+            this.bDeleteMode.UseVisualStyleBackColor = true;
+            this.bDeleteMode.Click += new System.EventHandler(this.bDeleteMode_Click);
             // 
             // label1
             // 
@@ -103,7 +116,7 @@
             this.cbRandomizeDB.Checked = true;
             this.cbRandomizeDB.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbRandomizeDB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.cbRandomizeDB.Location = new System.Drawing.Point(14, 108);
+            this.cbRandomizeDB.Location = new System.Drawing.Point(14, 76);
             this.cbRandomizeDB.Name = "cbRandomizeDB";
             this.cbRandomizeDB.Size = new System.Drawing.Size(205, 24);
             this.cbRandomizeDB.TabIndex = 2;
@@ -178,7 +191,8 @@
         private System.Windows.Forms.CheckBox cbRandomizeDB;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tbMainParam;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button bDeleteMode;
+        private System.Windows.Forms.Button bResetSearch;
     }
 }
 

@@ -66,9 +66,36 @@ namespace University_ModernProgrammingTechnologies_Lab1
             _Insert(_rootItem, binaryTreeItem);
         }
 
-        public override void Remove()
+        public override void RemoveItem(ref BinaryTreeItem<RadialBearing> bearing)
         {
-            
+            if (bearing.Equals(bearing.parentItem?.leftItem))
+                bearing.parentItem.leftItem = null;
+            else if (bearing.Equals(bearing.parentItem?.rightItem))
+                bearing.parentItem.rightItem = null;
+
+            if (bearing.rightItem != null)
+                _RemoveItem(ref bearing.rightItem);
+            if (bearing.leftItem != null)
+                _RemoveItem(ref bearing.leftItem);
+
+            bearing.Dispose();
+            bearing = null;
+            ItemCount--;
+        }
+
+        private void _RemoveItem(ref BinaryTreeItem<RadialBearing> bearing)
+        {
+            if (bearing.rightItem != null)
+                _RemoveItem(ref bearing.rightItem);
+            if (bearing.leftItem != null)
+                _RemoveItem(ref bearing.leftItem);
+
+            BinaryTreeItem<RadialBearing> copyBearing = bearing;
+
+            bearing.Dispose();
+            bearing = null;
+
+            Insert(copyBearing.Item);
         }
 
         public void Search(BinaryTreeItem<RadialBearing> item, int[] values, params BearingParam[] bearingParams)
@@ -145,6 +172,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
                 if (currentBearing.leftItem == null)
                 {
                     currentBearing.leftItem = newBearing;
+                    newBearing.parentItem = currentBearing;
                     ItemCount++;
                 }
                 else 
@@ -155,6 +183,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
                 if (currentBearing.rightItem == null)
                 {
                     currentBearing.rightItem = newBearing;
+                    newBearing.parentItem = currentBearing;
                     ItemCount++;
                 }
                 else

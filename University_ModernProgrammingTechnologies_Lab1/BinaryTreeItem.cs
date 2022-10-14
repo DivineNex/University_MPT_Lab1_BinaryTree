@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace University_ModernProgrammingTechnologies_Lab1
 {
-    internal class BinaryTreeItem<T>
+    internal class BinaryTreeItem<T> : IDisposable
     {
         public T Item { get; private set; }
+        public bool Active { get; set; } = true;
+
         public BinaryTreeItem<T> leftItem;
         public BinaryTreeItem<T> rightItem;
-        public bool Active { get; set; } = true;
+        public BinaryTreeItem<T> parentItem;
 
         public BinaryTreeItem(T item)
         {
@@ -19,5 +21,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
             leftItem = null;
             rightItem = null;
         }
+
+        public void Dispose() {}
     }
 }

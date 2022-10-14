@@ -82,11 +82,6 @@ namespace University_ModernProgrammingTechnologies_Lab1
             _visualizer?.UpdateAndDraw();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            _visualizer.ResetSearching();
-        }
-
         private void tbMainParam_TextChanged(object sender, EventArgs e)
         {
             _visualizer.ResetSearching();
@@ -114,6 +109,25 @@ namespace University_ModernProgrammingTechnologies_Lab1
             }
             _visualizer.IsSearching = true;
             _visualizer.UpdateAndDraw();
+        }
+
+        private void bResetSearch_Click(object sender, EventArgs e)
+        {
+            _visualizer.ResetSearching();
+        }
+
+        private void bDeleteMode_Click(object sender, EventArgs e)
+        {
+            if (!_visualizer.DeleteMode)
+            {
+                _visualizer.DeleteMode = true;
+                bDeleteMode.Text = "Exit delete mode";
+            }
+            else
+            {
+                _visualizer.DeleteMode = false;
+                bDeleteMode.Text = "Enter delete mode";
+            }
         }
     }
 }

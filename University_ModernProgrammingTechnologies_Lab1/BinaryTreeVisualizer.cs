@@ -18,7 +18,6 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private Pen _pen;
         private SolidBrush _brush;
         private SolidBrush _fontBrush;
-        private RadialBearingBinaryTree _tree;
         private List<BinaryTreeVisualizerNode> _nodes;
         public int xOffset = 0;
         public int yOffset = 0;
@@ -28,11 +27,15 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private bool _infoPanelShowing = false;
         private BinaryTreeVisualizerNode _nodeInfoPanelShowing = null;
 
+        public RadialBearingBinaryTree Tree { get; private set; }
+
         public bool IsSearching { get; set; } = false;
+
+        public bool DeleteMode { get; set; } = false;
 
         public BinaryTreeVisualizer(Control parent, RadialBearingBinaryTree binaryTree)
         {
-            _tree = binaryTree;
+            Tree = binaryTree;
             _pen = new Pen(Color.DarkGray);
             _brush = new SolidBrush(Color.FromArgb(210, 185, 255));
             _fontBrush = new SolidBrush(Color.Black);
@@ -109,7 +112,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
             Clear();
 
             //root node creation
-            BinaryTreeVisualizerNode rootNode = new BinaryTreeVisualizerNode(this, _tree.RootItem, null);
+            BinaryTreeVisualizerNode rootNode = new BinaryTreeVisualizerNode(this, Tree.RootItem, null);
             _nodes.Add(rootNode);
             _CreateNodeChilds(rootNode);
         } 
@@ -141,7 +144,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
             for (int i = 0; i < _nodes.Count; i++)
             {
-                switch (_tree.bearingParam)
+                switch (Tree.bearingParam)
                 {
                     case BearingParam.d:
                         itemValue = _nodes[i].TreeItem.Item.d;
@@ -162,7 +165,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
                         break;
                 }
 
-                _nodes[i].X = InterpolateX(itemValue, _tree.MinValue, _tree.MaxValue, 0, _width) + Parent.Width / 2;
+                _nodes[i].X = InterpolateX(itemValue, Tree.MinValue, Tree.MaxValue, 0, _width) + Parent.Width / 2;
                 if(i == 0)
                     _nodes[0].Y = BinaryTreeVisualizerNode.nodeSize;
                 else
@@ -268,7 +271,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
                 Font font = new Font(Name = "Arial", BinaryTreeVisualizerNode.nodeSize / 3.5f);
 
                 string valueString = _nodes[i].TreeItem.Item.d.ToString();
-                switch (_tree.bearingParam) 
+                switch (Tree.bearingParam) 
                 {
                     case BearingParam.d:
                         valueString = _nodes[i].TreeItem.Item.d.ToString();
@@ -334,7 +337,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         public void ResetSearching()
         {
-            _tree.ResetSearch(_tree.RootItem);
+            Tree.ResetSearch(Tree.RootItem);
             ResetBrushColor();
             IsSearching = false;
             UpdateAndDraw();

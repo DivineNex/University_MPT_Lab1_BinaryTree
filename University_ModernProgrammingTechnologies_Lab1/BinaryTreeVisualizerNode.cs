@@ -16,7 +16,14 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         public int Y { get; set; }
 
-        public BinaryTreeItem<RadialBearing> TreeItem { get; private set; }
+        private BinaryTreeItem<RadialBearing> _treeItem;
+
+        public BinaryTreeItem<RadialBearing> TreeItem
+        {
+            get { return _treeItem; }
+            private set { _treeItem = value; }
+        }
+
         public BinaryTreeVisualizerNode LeftNode { get; set; } = null;
         public BinaryTreeVisualizerNode RightNode { get; set; } = null;
         public BinaryTreeVisualizerNode ParentNode { get; private set; } = null;
@@ -67,6 +74,14 @@ namespace University_ModernProgrammingTechnologies_Lab1
             if (cursorOnIt)
                 if (e.Button == MouseButtons.Left)
                 {
+                    if (_visualizer.DeleteMode)
+                    {
+                        _visualizer.Tree.RemoveItem(ref _treeItem);
+                        _visualizer.CreateNodes();
+                        _visualizer.UpdateAndDraw();
+                        return;
+                    }
+
                     _visualizer.DrawNodeInfoPanel(this);
                 }
         }
