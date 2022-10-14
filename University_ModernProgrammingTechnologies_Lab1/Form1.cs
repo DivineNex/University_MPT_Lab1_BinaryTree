@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Reflection;
+using System.Threading;
+using System.Diagnostics;
 
 namespace University_ModernProgrammingTechnologies_Lab1
 {
@@ -30,6 +32,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
             InitBinaryTree();
             InitVisualizer();
             cmbParam.SelectedIndex = 0;
+            cmbSearchMethod.SelectedIndex = 0;
         }
 
         private void InitBinaryTree()
@@ -51,7 +54,99 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private void cbParam_SelectedIndexChanged(object sender, EventArgs e)
         {
             _visualizer.Select();
+            RebuildTree();
+        }
 
+        private void formMain_Resize(object sender, EventArgs e)
+        {
+            _visualizer?.UpdateAndDraw();
+        }
+
+        private void tbMainParam_TextChanged(object sender, EventArgs e)
+        {
+            _visualizer.ResetSearching();
+
+            if (int.TryParse(tbMainParam.Text, out int res))
+            {
+                var stopwatch = new Stopwatch();
+                stopwatch.Start();
+                switch (cmbParam.SelectedIndex)
+                {
+                    case 0:
+                        if (cmbSearchMethod.SelectedIndex == 0)
+                            _binaryTree.Search(_binaryTree.RootItem, new int[] { res }, BearingParam.d);
+                        else if (cmbSearchMethod.SelectedIndex == 1)
+                            _binaryTree.SearchByHalfDividing(_binaryTree.RootItem, res, BearingParam.d);
+                        break;
+                    case 1:
+                        if (cmbSearchMethod.SelectedIndex == 0)
+                            _binaryTree.Search(_binaryTree.RootItem, new int[] { res }, BearingParam.D);
+                        else if (cmbSearchMethod.SelectedIndex == 1)
+                            _binaryTree.SearchByHalfDividing(_binaryTree.RootItem, res, BearingParam.D);
+                        break;
+                    case 2:
+                        if (cmbSearchMethod.SelectedIndex == 0)
+                            _binaryTree.Search(_binaryTree.RootItem, new int[] { res }, BearingParam.B);
+                        else if (cmbSearchMethod.SelectedIndex == 1)
+                            _binaryTree.SearchByHalfDividing(_binaryTree.RootItem, res, BearingParam.B);
+                        break;
+                    case 3:
+                        if (cmbSearchMethod.SelectedIndex == 0)
+                            _binaryTree.Search(_binaryTree.RootItem, new int[] { res }, BearingParam.C);
+                        else if (cmbSearchMethod.SelectedIndex == 1)
+                            _binaryTree.SearchByHalfDividing(_binaryTree.RootItem, res, BearingParam.C);
+                        break;
+                    case 4:
+                        if (cmbSearchMethod.SelectedIndex == 0)
+                            _binaryTree.Search(_binaryTree.RootItem, new int[] { res }, BearingParam.C0);
+                        else if (cmbSearchMethod.SelectedIndex == 1)
+                            _binaryTree.SearchByHalfDividing(_binaryTree.RootItem, res, BearingParam.C0);
+                        break;
+                }
+                stopwatch.Stop();
+                lbSearchTime.Text = $"Last search time (ms): {stopwatch.ElapsedMilliseconds}";
+                lbSearchTime2.Text = $"Last search time (ticks): {stopwatch.ElapsedTicks}";
+                stopwatch.Reset();
+            }
+            _visualizer.IsSearching = true;
+            _visualizer.UpdateAndDraw();
+        }
+
+        private void bResetSearch_Click(object sender, EventArgs e)
+        {
+            _visualizer.ResetSearching();
+        }
+
+        private void bDeleteMode_Click(object sender, EventArgs e)
+        {
+            if (!_visualizer.DeleteMode)
+            {
+                _visualizer.DeleteMode = true;
+                bDeleteMode.Text = "Exit delete mode";
+            }
+            else
+            {
+                _visualizer.DeleteMode = false;
+                bDeleteMode.Text = "Enter delete mode";
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Int32.TryParse(tbAddRndRecords.Text, out int res);
+            _dBManager.FillTableWithRandomValues(res);
+            RebuildTree();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Int32.TryParse(tbDeleteRecords.Text, out int res);
+            _dBManager.DeleteRecordsFromTable(res);
+            RebuildTree();
+        }
+
+        private void RebuildTree()
+        {
             switch (cmbParam.SelectedIndex)
             {
                 case 0:
@@ -75,59 +170,19 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
             _visualizer.CreateNodes();
             _visualizer.UpdateAndDraw();
+            _visualizer.Select();
+            lbItemCount.Text = $"Current item count: {_binaryTree.ItemCount}";
+            lbDBRecordsCount.Text = $"DB records count: {_dBManager.GetRecordsCount()}";
         }
 
-        private void formMain_Resize(object sender, EventArgs e)
+        private void pictureBox1_Click(object sender, EventArgs e)
         {
-            _visualizer?.UpdateAndDraw();
+            _visualizer.Select();
         }
 
-        private void tbMainParam_TextChanged(object sender, EventArgs e)
+        private void cbVisualization_CheckedChanged(object sender, EventArgs e)
         {
-            _visualizer.ResetSearching();
-
-            if (int.TryParse(tbMainParam.Text, out int res))
-            {
-                switch (cmbParam.SelectedIndex)
-                {
-                    case 0:
-                        _binaryTree.Search(_binaryTree.RootItem, new int[] { res }, BearingParam.d);
-                        break;
-                    case 1:
-                        _binaryTree.Search(_binaryTree.RootItem, new int[] { res }, BearingParam.D);
-                        break;
-                    case 2:
-                        _binaryTree.Search(_binaryTree.RootItem, new int[] { res }, BearingParam.B);
-                        break;
-                    case 3:
-                        _binaryTree.Search(_binaryTree.RootItem, new int[] { res }, BearingParam.C);
-                        break;
-                    case 4:
-                        _binaryTree.Search(_binaryTree.RootItem, new int[] { res }, BearingParam.C0);
-                        break;
-                }
-            }
-            _visualizer.IsSearching = true;
-            _visualizer.UpdateAndDraw();
-        }
-
-        private void bResetSearch_Click(object sender, EventArgs e)
-        {
-            _visualizer.ResetSearching();
-        }
-
-        private void bDeleteMode_Click(object sender, EventArgs e)
-        {
-            if (!_visualizer.DeleteMode)
-            {
-                _visualizer.DeleteMode = true;
-                bDeleteMode.Text = "Exit delete mode";
-            }
-            else
-            {
-                _visualizer.DeleteMode = false;
-                bDeleteMode.Text = "Enter delete mode";
-            }
+            _visualizer.Visible = cbVisualization.Checked;
         }
     }
 }

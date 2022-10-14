@@ -16,6 +16,12 @@ namespace University_ModernProgrammingTechnologies_Lab1
     internal sealed class RadialBearingBinaryTree : BinaryTree<RadialBearing>
     {
         public BearingParam bearingParam { get; private set; } = BearingParam.None;
+        public Timer Timer { get; private set; }
+
+        public RadialBearingBinaryTree()
+        {
+            
+        }
 
         public override void Clear(ref BinaryTreeItem<RadialBearing> item)
         {
@@ -104,35 +110,79 @@ namespace University_ModernProgrammingTechnologies_Lab1
             {
                 for (int i = 0; i < bearingParams.Length; i++)
                 {
+                    int bearingValue = 0;
+
                     switch (bearingParams[i])
                     {
                         case BearingParam.d:
-                            if (item.Item.d != values[i])
-                                item.Active = false;
+                            bearingValue = item.Item.d;
                             break;
                         case BearingParam.D:
-                            if (item.Item.D != values[i])
-                                item.Active = false;
+                            bearingValue = item.Item.D;
                             break;
                         case BearingParam.B:
-                            if (item.Item.B != values[i])
-                                item.Active = false;
+                            bearingValue = item.Item.B;
                             break;
                         case BearingParam.C:
-                            if (item.Item.C != values[i])
-                                item.Active = false;
+                            bearingValue = item.Item.C;
                             break;
                         case BearingParam.C0:
-                            if (item.Item.C0 != values[i])
-                                item.Active = false;
+                            bearingValue = item.Item.d;
                             break;
                     }
+
+                    if (bearingValue == values[i])
+                    {
+                        item.FoundBySearch = true;
+                        return;
+                    }
+                        
                 }
 
                 if (item.leftItem != null)
                     Search(item.leftItem, values, bearingParams);
                 if (item.rightItem != null)
                     Search(item.rightItem, values, bearingParams);
+            }
+        }
+
+        public void SearchByHalfDividing(BinaryTreeItem<RadialBearing> item, int value, BearingParam bearingParam)
+        {
+            int bearingValue = 0;
+            switch (bearingParam)
+            {
+                case BearingParam.d:
+                    bearingValue = item.Item.d;
+                    break;
+                case BearingParam.D:
+                    bearingValue = item.Item.D;
+                    break;
+                case BearingParam.B:
+                    bearingValue = item.Item.B;
+                    break;
+                case BearingParam.C:
+                    bearingValue = item.Item.C;
+                    break;
+                case BearingParam.C0:
+                    bearingValue = item.Item.d;
+                    break;
+            }
+
+            if (bearingValue == value)
+            {
+                item.FoundBySearch = true;
+                return;
+            }
+
+            if (bearingValue < value)
+            {
+                if (item.rightItem != null)
+                    SearchByHalfDividing(item.rightItem, value, bearingParam);
+            }
+            else if (bearingValue > value)
+            {
+                if (item.leftItem != null)
+                    SearchByHalfDividing(item.leftItem, value, bearingParam);
             }
         }
 
@@ -248,7 +298,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
         public void ResetSearch(BinaryTreeItem<RadialBearing> item)
         {
             if (item != null)
-                item.Active = true;
+                item.FoundBySearch = false;
             if (item.leftItem != null)
                 ResetSearch(item.leftItem);
             if (item.rightItem != null)

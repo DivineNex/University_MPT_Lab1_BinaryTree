@@ -255,10 +255,10 @@ namespace University_ModernProgrammingTechnologies_Lab1
             {
                 if (IsSearching)
                 {
-                    if (_nodes[i].TreeItem.Active)
+                    if (_nodes[i].TreeItem.FoundBySearch)
                         _brush.Color = Color.Green;
                     else
-                        _brush.Color = Color.Red;
+                        _brush.Color = Color.FromArgb(255, 185, 185);
                 }
 
                 graphics.FillEllipse(_brush, new Rectangle(_nodes[i].X + xOffset, _nodes[i].Y + yOffset,

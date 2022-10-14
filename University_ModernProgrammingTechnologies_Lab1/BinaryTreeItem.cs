@@ -9,7 +9,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
     internal class BinaryTreeItem<T> : IDisposable
     {
         public T Item { get; private set; }
-        public bool Active { get; set; } = true;
+        public bool FoundBySearch { get; set; } = false;
 
         public BinaryTreeItem<T> leftItem;
         public BinaryTreeItem<T> rightItem;
