@@ -14,13 +14,20 @@ using System.Diagnostics;
 
 namespace University_ModernProgrammingTechnologies_Lab1
 {
-    public partial class formMain : Form
+    public partial class mainForm : Form
     {
         private DBManager _dBManager;
-        private RadialBearingBinaryTree _binaryTree;
+        internal RadialBearingBinaryTree _binaryTree;
+
+        internal RadialBearingBinaryTree BinaryTree
+        {
+            get { return _binaryTree; }
+        }
+
+
         private BinaryTreeVisualizer _visualizer;
 
-        public formMain()
+        public mainForm()
         {
             InitializeComponent();
         }
@@ -133,16 +140,26 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Int32.TryParse(tbAddRndRecords.Text, out int res);
-            _dBManager.FillTableWithRandomValues(res);
-            RebuildTree();
+            if (Int32.TryParse(tbAddRndRecords.Text, out int res))
+            {
+                if (res > 100 && cbVisualization.Checked)
+                {
+                    MessageBox.Show("Внимание! Выключи визуализацию!");
+                    return;
+                }
+
+                _dBManager.FillTableWithRandomValues(res);
+                RebuildTree();
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Int32.TryParse(tbDeleteRecords.Text, out int res);
-            _dBManager.DeleteRecordsFromTable(res);
-            RebuildTree();
+            if (Int32.TryParse(tbDeleteRecords.Text, out int res))
+            {
+                _dBManager.DeleteRecordsFromTable(res);
+                RebuildTree();
+            }
         }
 
         private void RebuildTree()
@@ -183,6 +200,24 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private void cbVisualization_CheckedChanged(object sender, EventArgs e)
         {
             _visualizer.Visible = cbVisualization.Checked;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            TestForm testForm = new TestForm(this);
+            testForm.Show();
+        }
+
+        private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (_dBManager.GetRecordsCount() > 100)
+            {
+                var window = MessageBox.Show("Записей в БД много, ты уверен?",
+                                            "Закрыть окно?",
+                                            MessageBoxButtons.YesNo);
+
+                e.Cancel = (window == DialogResult.No);
+            }
         }
     }
 }

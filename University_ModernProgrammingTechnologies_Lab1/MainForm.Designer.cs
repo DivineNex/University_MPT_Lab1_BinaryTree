@@ -1,6 +1,6 @@
 ﻿namespace University_ModernProgrammingTechnologies_Lab1
 {
-    partial class formMain
+    partial class mainForm
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -29,6 +29,13 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.button4 = new System.Windows.Forms.Button();
+            this.lbDBRecordsCount = new System.Windows.Forms.Label();
+            this.lbItemCount = new System.Windows.Forms.Label();
+            this.cbVisualization = new System.Windows.Forms.CheckBox();
+            this.tbAddRndRecords = new System.Windows.Forms.TextBox();
+            this.tbDeleteRecords = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.lbSearchTime2 = new System.Windows.Forms.Label();
             this.lbSearchTime = new System.Windows.Forms.Label();
@@ -42,13 +49,7 @@
             this.lbParam = new System.Windows.Forms.Label();
             this.cmbParam = new System.Windows.Forms.ComboBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.tbDeleteRecords = new System.Windows.Forms.TextBox();
-            this.tbAddRndRecords = new System.Windows.Forms.TextBox();
-            this.cbVisualization = new System.Windows.Forms.CheckBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.lbItemCount = new System.Windows.Forms.Label();
-            this.lbDBRecordsCount = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -66,9 +67,10 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.progressBar1);
+            this.splitContainer1.Panel1.Controls.Add(this.button4);
             this.splitContainer1.Panel1.Controls.Add(this.lbDBRecordsCount);
             this.splitContainer1.Panel1.Controls.Add(this.lbItemCount);
-            this.splitContainer1.Panel1.Controls.Add(this.button3);
             this.splitContainer1.Panel1.Controls.Add(this.cbVisualization);
             this.splitContainer1.Panel1.Controls.Add(this.tbAddRndRecords);
             this.splitContainer1.Panel1.Controls.Add(this.tbDeleteRecords);
@@ -93,10 +95,84 @@
             this.splitContainer1.SplitterDistance = 317;
             this.splitContainer1.TabIndex = 0;
             // 
+            // button4
+            // 
+            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button4.Location = new System.Drawing.Point(14, 445);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(296, 26);
+            this.button4.TabIndex = 19;
+            this.button4.Text = "Open test window";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // lbDBRecordsCount
+            // 
+            this.lbDBRecordsCount.AutoSize = true;
+            this.lbDBRecordsCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbDBRecordsCount.Location = new System.Drawing.Point(10, 311);
+            this.lbDBRecordsCount.Name = "lbDBRecordsCount";
+            this.lbDBRecordsCount.Size = new System.Drawing.Size(150, 20);
+            this.lbDBRecordsCount.TabIndex = 18;
+            this.lbDBRecordsCount.Text = "DB records count: 0";
+            // 
+            // lbItemCount
+            // 
+            this.lbItemCount.AutoSize = true;
+            this.lbItemCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbItemCount.Location = new System.Drawing.Point(10, 291);
+            this.lbItemCount.Name = "lbItemCount";
+            this.lbItemCount.Size = new System.Drawing.Size(157, 20);
+            this.lbItemCount.TabIndex = 17;
+            this.lbItemCount.Text = "Current item count: 0";
+            // 
+            // cbVisualization
+            // 
+            this.cbVisualization.AutoSize = true;
+            this.cbVisualization.Checked = true;
+            this.cbVisualization.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbVisualization.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cbVisualization.Location = new System.Drawing.Point(14, 140);
+            this.cbVisualization.Name = "cbVisualization";
+            this.cbVisualization.Size = new System.Drawing.Size(117, 24);
+            this.cbVisualization.TabIndex = 15;
+            this.cbVisualization.Text = "Visualization";
+            this.cbVisualization.UseVisualStyleBackColor = true;
+            this.cbVisualization.CheckedChanged += new System.EventHandler(this.cbVisualization_CheckedChanged);
+            // 
+            // tbAddRndRecords
+            // 
+            this.tbAddRndRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tbAddRndRecords.Location = new System.Drawing.Point(14, 334);
+            this.tbAddRndRecords.Name = "tbAddRndRecords";
+            this.tbAddRndRecords.Size = new System.Drawing.Size(121, 26);
+            this.tbAddRndRecords.TabIndex = 14;
+            this.tbAddRndRecords.Text = "10";
+            // 
+            // tbDeleteRecords
+            // 
+            this.tbDeleteRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tbDeleteRecords.Location = new System.Drawing.Point(14, 366);
+            this.tbDeleteRecords.Name = "tbDeleteRecords";
+            this.tbDeleteRecords.Size = new System.Drawing.Size(121, 26);
+            this.tbDeleteRecords.TabIndex = 13;
+            this.tbDeleteRecords.Text = "10";
+            // 
+            // button2
+            // 
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button2.Location = new System.Drawing.Point(141, 366);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(169, 26);
+            this.button2.TabIndex = 12;
+            this.button2.Text = "Delete records";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(141, 314);
+            this.button1.Location = new System.Drawing.Point(141, 334);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(169, 26);
             this.button1.TabIndex = 11;
@@ -237,90 +313,26 @@
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
             // 
-            // button2
+            // progressBar1
             // 
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button2.Location = new System.Drawing.Point(141, 346);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(169, 26);
-            this.button2.TabIndex = 12;
-            this.button2.Text = "Delete records";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.progressBar1.Location = new System.Drawing.Point(14, 398);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(296, 23);
+            this.progressBar1.Step = 1;
+            this.progressBar1.TabIndex = 20;
             // 
-            // tbDeleteRecords
-            // 
-            this.tbDeleteRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tbDeleteRecords.Location = new System.Drawing.Point(14, 346);
-            this.tbDeleteRecords.Name = "tbDeleteRecords";
-            this.tbDeleteRecords.Size = new System.Drawing.Size(121, 26);
-            this.tbDeleteRecords.TabIndex = 13;
-            this.tbDeleteRecords.Text = "10";
-            // 
-            // tbAddRndRecords
-            // 
-            this.tbAddRndRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tbAddRndRecords.Location = new System.Drawing.Point(14, 314);
-            this.tbAddRndRecords.Name = "tbAddRndRecords";
-            this.tbAddRndRecords.Size = new System.Drawing.Size(121, 26);
-            this.tbAddRndRecords.TabIndex = 14;
-            this.tbAddRndRecords.Text = "10";
-            // 
-            // cbVisualization
-            // 
-            this.cbVisualization.AutoSize = true;
-            this.cbVisualization.Checked = true;
-            this.cbVisualization.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbVisualization.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.cbVisualization.Location = new System.Drawing.Point(14, 140);
-            this.cbVisualization.Name = "cbVisualization";
-            this.cbVisualization.Size = new System.Drawing.Size(117, 24);
-            this.cbVisualization.TabIndex = 15;
-            this.cbVisualization.Text = "Visualization";
-            this.cbVisualization.UseVisualStyleBackColor = true;
-            this.cbVisualization.CheckedChanged += new System.EventHandler(this.cbVisualization_CheckedChanged);
-            // 
-            // button3
-            // 
-            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button3.Location = new System.Drawing.Point(14, 378);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(296, 26);
-            this.button3.TabIndex = 16;
-            this.button3.Text = "Add rnd records";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // lbItemCount
-            // 
-            this.lbItemCount.AutoSize = true;
-            this.lbItemCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lbItemCount.Location = new System.Drawing.Point(10, 271);
-            this.lbItemCount.Name = "lbItemCount";
-            this.lbItemCount.Size = new System.Drawing.Size(157, 20);
-            this.lbItemCount.TabIndex = 17;
-            this.lbItemCount.Text = "Current item count: 0";
-            // 
-            // lbDBRecordsCount
-            // 
-            this.lbDBRecordsCount.AutoSize = true;
-            this.lbDBRecordsCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lbDBRecordsCount.Location = new System.Drawing.Point(10, 291);
-            this.lbDBRecordsCount.Name = "lbDBRecordsCount";
-            this.lbDBRecordsCount.Size = new System.Drawing.Size(150, 20);
-            this.lbDBRecordsCount.TabIndex = 18;
-            this.lbDBRecordsCount.Text = "DB records count: 0";
-            // 
-            // formMain
+            // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1084, 861);
             this.Controls.Add(this.splitContainer1);
             this.DoubleBuffered = true;
-            this.Name = "formMain";
+            this.Name = "mainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Radial bearing binary tree";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.mainForm_FormClosing);
             this.Load += new System.EventHandler(this.formMain_Load);
             this.Resize += new System.EventHandler(this.formMain_Resize);
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -353,9 +365,10 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox tbAddRndRecords;
         private System.Windows.Forms.CheckBox cbVisualization;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label lbItemCount;
         private System.Windows.Forms.Label lbDBRecordsCount;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
 
