@@ -56,8 +56,11 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         public void UpdateAndDraw()
         {
-            RecalculateNodesPosition();
-            Refresh();
+            if (Tree.ItemCount != 0)
+            {
+                RecalculateNodesPosition();
+                Refresh();
+            }
         }
 
         private void Clear()
@@ -69,6 +72,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         private void BinaryTreeVisualizer_MouseClick(object sender, MouseEventArgs e)
         {
+            Select();
             if (e.Button != MouseButtons.Middle)
             {
                 if (_infoPanelShowing)

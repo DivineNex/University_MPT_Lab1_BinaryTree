@@ -11,6 +11,7 @@ using System.Data.SqlClient;
 using System.Reflection;
 using System.Threading;
 using System.Diagnostics;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace University_ModernProgrammingTechnologies_Lab1
 {
@@ -50,11 +51,6 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private void InitVisualizer()
         {
             _visualizer = new BinaryTreeVisualizer(pictureBox1 ,_binaryTree);
-            _visualizer.Select();
-        }
-
-        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
-        {
             _visualizer.Select();
         }
 
@@ -111,7 +107,6 @@ namespace University_ModernProgrammingTechnologies_Lab1
                         break;
                 }
                 stopwatch.Stop();
-                lbSearchTime.Text = $"Last search time (ms): {stopwatch.ElapsedMilliseconds}";
                 lbSearchTime2.Text = $"Last search time (ticks): {stopwatch.ElapsedTicks}";
                 stopwatch.Reset();
             }
@@ -138,28 +133,18 @@ namespace University_ModernProgrammingTechnologies_Lab1
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void bAddRndRecords_Click(object sender, EventArgs e)
         {
-            if (Int32.TryParse(tbAddRndRecords.Text, out int res))
-            {
-                if (res > 100 && cbVisualization.Checked)
-                {
-                    MessageBox.Show("Внимание! Выключи визуализацию!");
-                    return;
-                }
-
-                _dBManager.FillTableWithRandomValues(res);
-                RebuildTree();
-            }
+            bCancelAddingRecords.Enabled = true;
+            if (!bgwRecordsAdding.IsBusy)
+                bgwRecordsAdding.RunWorkerAsync();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void bDeleteRecords_Click(object sender, EventArgs e)
         {
-            if (Int32.TryParse(tbDeleteRecords.Text, out int res))
-            {
-                _dBManager.DeleteRecordsFromTable(res);
-                RebuildTree();
-            }
+            bCancelDeletingRecords.Enabled = true;
+            if (!bgwRecordsDeleting.IsBusy)
+                bgwRecordsDeleting.RunWorkerAsync();
         }
 
         private void RebuildTree()
@@ -184,17 +169,15 @@ namespace University_ModernProgrammingTechnologies_Lab1
                 default:
                     break;
             }
+            if (_binaryTree.ItemCount != 0)
+            {
+                _visualizer.CreateNodes();
+                _visualizer.UpdateAndDraw();
+            }
 
-            _visualizer.CreateNodes();
-            _visualizer.UpdateAndDraw();
             _visualizer.Select();
             lbItemCount.Text = $"Current item count: {_binaryTree.ItemCount}";
             lbDBRecordsCount.Text = $"DB records count: {_dBManager.GetRecordsCount()}";
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            _visualizer.Select();
         }
 
         private void cbVisualization_CheckedChanged(object sender, EventArgs e)
@@ -202,7 +185,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
             _visualizer.Visible = cbVisualization.Checked;
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void bOpenTestForm_Click(object sender, EventArgs e)
         {
             TestForm testForm = new TestForm(this);
             testForm.Show();
@@ -218,6 +201,77 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
                 e.Cancel = (window == DialogResult.No);
             }
+        }
+
+        private void bgwRecordsAdding_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var backgroundWorker = sender as BackgroundWorker;
+
+            if (Int32.TryParse(tbAddRndRecords.Text, out int res))
+            {
+                if (res > 100 && cbVisualization.Checked)
+                {
+                    MessageBox.Show("Внимание! Выключи визуализацию!");
+                    bgwRecordsAdding.CancelAsync();
+                    return;
+                }
+
+                _dBManager.FillTableWithRandomValues(res, backgroundWorker, e);
+
+                int recordsCount = _dBManager.GetRecordsCount();
+                if (InvokeRequired)
+                    this.Invoke(new Action(() => lbDBRecordsCount.Text = $"DB records count: {recordsCount}"));
+            }
+
+            if (InvokeRequired)
+                this.Invoke(new Action(() => bCancelAddingRecords.Enabled = false));
+        }
+
+        private void bgwRecordsAdding_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            pbDBProgress.Value = e.ProgressPercentage;
+            pbDBProgress.Update();
+        }
+
+        private void bCancelAddingRecords_Click(object sender, EventArgs e)
+        {
+            bgwRecordsAdding.CancelAsync();
+            pbDBProgress.Value = 0;
+        }
+
+        private void bgwRecordsDeleting_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var backgroundWorker = sender as BackgroundWorker;
+
+            if (Int32.TryParse(tbAddRndRecords.Text, out int res))
+            {
+                _dBManager.DeleteRecordsFromTable(res, backgroundWorker, e);
+
+                int recordsCount = _dBManager.GetRecordsCount();
+                if (InvokeRequired)
+                    this.Invoke(new Action(() => lbDBRecordsCount.Text = $"DB records count: {recordsCount}"));
+            }
+
+            if (InvokeRequired)
+                this.Invoke(new Action(() => bCancelDeletingRecords.Enabled = false));
+        }
+
+        private void bgwRecordsDeleting_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            pbDBProgress.Value = e.ProgressPercentage;
+            pbDBProgress.Update();
+        }
+
+        private void bgwRecordsAdding_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (cbAutoRebuild.Checked)
+                RebuildTree();
+        }
+
+        private void bgwRecordsDeleting_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (cbAutoRebuild.Checked)
+                RebuildTree();
         }
     }
 }

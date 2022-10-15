@@ -29,16 +29,19 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.button4 = new System.Windows.Forms.Button();
+            this.cbAutoRebuild = new System.Windows.Forms.CheckBox();
+            this.bCancelDeletingRecords = new System.Windows.Forms.Button();
+            this.bCancelAddingRecords = new System.Windows.Forms.Button();
+            this.pbDBProgress = new System.Windows.Forms.ProgressBar();
+            this.bOpenTestForm = new System.Windows.Forms.Button();
             this.lbDBRecordsCount = new System.Windows.Forms.Label();
             this.lbItemCount = new System.Windows.Forms.Label();
             this.cbVisualization = new System.Windows.Forms.CheckBox();
             this.tbAddRndRecords = new System.Windows.Forms.TextBox();
             this.tbDeleteRecords = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.bDeleteRecords = new System.Windows.Forms.Button();
+            this.bAddRndRecords = new System.Windows.Forms.Button();
             this.lbSearchTime2 = new System.Windows.Forms.Label();
-            this.lbSearchTime = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.cmbSearchMethod = new System.Windows.Forms.ComboBox();
             this.bResetSearch = new System.Windows.Forms.Button();
@@ -49,7 +52,8 @@
             this.lbParam = new System.Windows.Forms.Label();
             this.cmbParam = new System.Windows.Forms.ComboBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.bgwRecordsAdding = new System.ComponentModel.BackgroundWorker();
+            this.bgwRecordsDeleting = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -67,17 +71,19 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.progressBar1);
-            this.splitContainer1.Panel1.Controls.Add(this.button4);
+            this.splitContainer1.Panel1.Controls.Add(this.cbAutoRebuild);
+            this.splitContainer1.Panel1.Controls.Add(this.bCancelDeletingRecords);
+            this.splitContainer1.Panel1.Controls.Add(this.bCancelAddingRecords);
+            this.splitContainer1.Panel1.Controls.Add(this.pbDBProgress);
+            this.splitContainer1.Panel1.Controls.Add(this.bOpenTestForm);
             this.splitContainer1.Panel1.Controls.Add(this.lbDBRecordsCount);
             this.splitContainer1.Panel1.Controls.Add(this.lbItemCount);
             this.splitContainer1.Panel1.Controls.Add(this.cbVisualization);
             this.splitContainer1.Panel1.Controls.Add(this.tbAddRndRecords);
             this.splitContainer1.Panel1.Controls.Add(this.tbDeleteRecords);
-            this.splitContainer1.Panel1.Controls.Add(this.button2);
-            this.splitContainer1.Panel1.Controls.Add(this.button1);
+            this.splitContainer1.Panel1.Controls.Add(this.bDeleteRecords);
+            this.splitContainer1.Panel1.Controls.Add(this.bAddRndRecords);
             this.splitContainer1.Panel1.Controls.Add(this.lbSearchTime2);
-            this.splitContainer1.Panel1.Controls.Add(this.lbSearchTime);
             this.splitContainer1.Panel1.Controls.Add(this.label2);
             this.splitContainer1.Panel1.Controls.Add(this.cmbSearchMethod);
             this.splitContainer1.Panel1.Controls.Add(this.bResetSearch);
@@ -95,22 +101,64 @@
             this.splitContainer1.SplitterDistance = 317;
             this.splitContainer1.TabIndex = 0;
             // 
-            // button4
+            // cbAutoRebuild
             // 
-            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button4.Location = new System.Drawing.Point(14, 445);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(296, 26);
-            this.button4.TabIndex = 19;
-            this.button4.Text = "Open test window";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.cbAutoRebuild.AutoSize = true;
+            this.cbAutoRebuild.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cbAutoRebuild.Location = new System.Drawing.Point(12, 164);
+            this.cbAutoRebuild.Name = "cbAutoRebuild";
+            this.cbAutoRebuild.Size = new System.Drawing.Size(145, 24);
+            this.cbAutoRebuild.TabIndex = 23;
+            this.cbAutoRebuild.Text = "Auto tree rebuild";
+            this.cbAutoRebuild.UseVisualStyleBackColor = true;
+            // 
+            // bCancelDeletingRecords
+            // 
+            this.bCancelDeletingRecords.Enabled = false;
+            this.bCancelDeletingRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.bCancelDeletingRecords.Location = new System.Drawing.Point(238, 226);
+            this.bCancelDeletingRecords.Name = "bCancelDeletingRecords";
+            this.bCancelDeletingRecords.Size = new System.Drawing.Size(70, 26);
+            this.bCancelDeletingRecords.TabIndex = 22;
+            this.bCancelDeletingRecords.Text = "Cancel";
+            this.bCancelDeletingRecords.UseVisualStyleBackColor = true;
+            // 
+            // bCancelAddingRecords
+            // 
+            this.bCancelAddingRecords.Enabled = false;
+            this.bCancelAddingRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.bCancelAddingRecords.Location = new System.Drawing.Point(238, 194);
+            this.bCancelAddingRecords.Name = "bCancelAddingRecords";
+            this.bCancelAddingRecords.Size = new System.Drawing.Size(70, 26);
+            this.bCancelAddingRecords.TabIndex = 21;
+            this.bCancelAddingRecords.Text = "Cancel";
+            this.bCancelAddingRecords.UseVisualStyleBackColor = true;
+            this.bCancelAddingRecords.Click += new System.EventHandler(this.bCancelAddingRecords_Click);
+            // 
+            // pbDBProgress
+            // 
+            this.pbDBProgress.Location = new System.Drawing.Point(12, 258);
+            this.pbDBProgress.Name = "pbDBProgress";
+            this.pbDBProgress.Size = new System.Drawing.Size(296, 23);
+            this.pbDBProgress.Step = 1;
+            this.pbDBProgress.TabIndex = 20;
+            // 
+            // bOpenTestForm
+            // 
+            this.bOpenTestForm.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.bOpenTestForm.Location = new System.Drawing.Point(12, 459);
+            this.bOpenTestForm.Name = "bOpenTestForm";
+            this.bOpenTestForm.Size = new System.Drawing.Size(296, 26);
+            this.bOpenTestForm.TabIndex = 19;
+            this.bOpenTestForm.Text = "Open test window";
+            this.bOpenTestForm.UseVisualStyleBackColor = true;
+            this.bOpenTestForm.Click += new System.EventHandler(this.bOpenTestForm_Click);
             // 
             // lbDBRecordsCount
             // 
             this.lbDBRecordsCount.AutoSize = true;
             this.lbDBRecordsCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lbDBRecordsCount.Location = new System.Drawing.Point(10, 311);
+            this.lbDBRecordsCount.Location = new System.Drawing.Point(9, 141);
             this.lbDBRecordsCount.Name = "lbDBRecordsCount";
             this.lbDBRecordsCount.Size = new System.Drawing.Size(150, 20);
             this.lbDBRecordsCount.TabIndex = 18;
@@ -120,7 +168,7 @@
             // 
             this.lbItemCount.AutoSize = true;
             this.lbItemCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lbItemCount.Location = new System.Drawing.Point(10, 291);
+            this.lbItemCount.Location = new System.Drawing.Point(9, 121);
             this.lbItemCount.Name = "lbItemCount";
             this.lbItemCount.Size = new System.Drawing.Size(157, 20);
             this.lbItemCount.TabIndex = 17;
@@ -132,7 +180,7 @@
             this.cbVisualization.Checked = true;
             this.cbVisualization.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbVisualization.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.cbVisualization.Location = new System.Drawing.Point(14, 140);
+            this.cbVisualization.Location = new System.Drawing.Point(13, 74);
             this.cbVisualization.Name = "cbVisualization";
             this.cbVisualization.Size = new System.Drawing.Size(117, 24);
             this.cbVisualization.TabIndex = 15;
@@ -143,68 +191,58 @@
             // tbAddRndRecords
             // 
             this.tbAddRndRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tbAddRndRecords.Location = new System.Drawing.Point(14, 334);
+            this.tbAddRndRecords.Location = new System.Drawing.Point(12, 194);
             this.tbAddRndRecords.Name = "tbAddRndRecords";
-            this.tbAddRndRecords.Size = new System.Drawing.Size(121, 26);
+            this.tbAddRndRecords.Size = new System.Drawing.Size(68, 26);
             this.tbAddRndRecords.TabIndex = 14;
-            this.tbAddRndRecords.Text = "10";
+            this.tbAddRndRecords.Text = "5000";
             // 
             // tbDeleteRecords
             // 
             this.tbDeleteRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tbDeleteRecords.Location = new System.Drawing.Point(14, 366);
+            this.tbDeleteRecords.Location = new System.Drawing.Point(12, 226);
             this.tbDeleteRecords.Name = "tbDeleteRecords";
-            this.tbDeleteRecords.Size = new System.Drawing.Size(121, 26);
+            this.tbDeleteRecords.Size = new System.Drawing.Size(68, 26);
             this.tbDeleteRecords.TabIndex = 13;
-            this.tbDeleteRecords.Text = "10";
+            this.tbDeleteRecords.Text = "5000";
             // 
-            // button2
+            // bDeleteRecords
             // 
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button2.Location = new System.Drawing.Point(141, 366);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(169, 26);
-            this.button2.TabIndex = 12;
-            this.button2.Text = "Delete records";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.bDeleteRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.bDeleteRecords.Location = new System.Drawing.Point(86, 226);
+            this.bDeleteRecords.Name = "bDeleteRecords";
+            this.bDeleteRecords.Size = new System.Drawing.Size(146, 26);
+            this.bDeleteRecords.TabIndex = 12;
+            this.bDeleteRecords.Text = "Delete records";
+            this.bDeleteRecords.UseVisualStyleBackColor = true;
+            this.bDeleteRecords.Click += new System.EventHandler(this.bDeleteRecords_Click);
             // 
-            // button1
+            // bAddRndRecords
             // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(141, 334);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(169, 26);
-            this.button1.TabIndex = 11;
-            this.button1.Text = "Add rnd records";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.bAddRndRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.bAddRndRecords.Location = new System.Drawing.Point(86, 194);
+            this.bAddRndRecords.Name = "bAddRndRecords";
+            this.bAddRndRecords.Size = new System.Drawing.Size(146, 26);
+            this.bAddRndRecords.TabIndex = 11;
+            this.bAddRndRecords.Text = "Add rnd records";
+            this.bAddRndRecords.UseVisualStyleBackColor = true;
+            this.bAddRndRecords.Click += new System.EventHandler(this.bAddRndRecords_Click);
             // 
             // lbSearchTime2
             // 
             this.lbSearchTime2.AutoSize = true;
             this.lbSearchTime2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lbSearchTime2.Location = new System.Drawing.Point(10, 251);
+            this.lbSearchTime2.Location = new System.Drawing.Point(8, 402);
             this.lbSearchTime2.Name = "lbSearchTime2";
             this.lbSearchTime2.Size = new System.Drawing.Size(189, 20);
             this.lbSearchTime2.TabIndex = 10;
             this.lbSearchTime2.Text = "Last search time (ticks): 0";
             // 
-            // lbSearchTime
-            // 
-            this.lbSearchTime.AutoSize = true;
-            this.lbSearchTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lbSearchTime.Location = new System.Drawing.Point(10, 231);
-            this.lbSearchTime.Name = "lbSearchTime";
-            this.lbSearchTime.Size = new System.Drawing.Size(178, 20);
-            this.lbSearchTime.TabIndex = 9;
-            this.lbSearchTime.Text = "Last search time (ms): 0";
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(10, 47);
+            this.label2.Location = new System.Drawing.Point(8, 310);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(118, 20);
             this.label2.TabIndex = 8;
@@ -217,7 +255,7 @@
             this.cmbSearchMethod.Items.AddRange(new object[] {
             "Full tree",
             "Half Dividing"});
-            this.cmbSearchMethod.Location = new System.Drawing.Point(189, 44);
+            this.cmbSearchMethod.Location = new System.Drawing.Point(187, 307);
             this.cmbSearchMethod.Name = "cmbSearchMethod";
             this.cmbSearchMethod.Size = new System.Drawing.Size(121, 28);
             this.cmbSearchMethod.TabIndex = 7;
@@ -225,7 +263,7 @@
             // bResetSearch
             // 
             this.bResetSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.bResetSearch.Location = new System.Drawing.Point(14, 202);
+            this.bResetSearch.Location = new System.Drawing.Point(12, 373);
             this.bResetSearch.Name = "bResetSearch";
             this.bResetSearch.Size = new System.Drawing.Size(296, 26);
             this.bResetSearch.TabIndex = 6;
@@ -236,7 +274,7 @@
             // bDeleteMode
             // 
             this.bDeleteMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.bDeleteMode.Location = new System.Drawing.Point(14, 170);
+            this.bDeleteMode.Location = new System.Drawing.Point(12, 491);
             this.bDeleteMode.Name = "bDeleteMode";
             this.bDeleteMode.Size = new System.Drawing.Size(296, 26);
             this.bDeleteMode.TabIndex = 5;
@@ -248,7 +286,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(10, 78);
+            this.label1.Location = new System.Drawing.Point(8, 341);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(157, 20);
             this.label1.TabIndex = 4;
@@ -257,7 +295,7 @@
             // tbMainParam
             // 
             this.tbMainParam.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tbMainParam.Location = new System.Drawing.Point(189, 78);
+            this.tbMainParam.Location = new System.Drawing.Point(187, 341);
             this.tbMainParam.Name = "tbMainParam";
             this.tbMainParam.Size = new System.Drawing.Size(121, 26);
             this.tbMainParam.TabIndex = 3;
@@ -269,7 +307,7 @@
             this.cbRandomizeDB.Checked = true;
             this.cbRandomizeDB.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbRandomizeDB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.cbRandomizeDB.Location = new System.Drawing.Point(14, 110);
+            this.cbRandomizeDB.Location = new System.Drawing.Point(13, 44);
             this.cbRandomizeDB.Name = "cbRandomizeDB";
             this.cbRandomizeDB.Size = new System.Drawing.Size(205, 24);
             this.cbRandomizeDB.TabIndex = 2;
@@ -310,16 +348,22 @@
             this.pictureBox1.Size = new System.Drawing.Size(759, 857);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
-            this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
             // 
-            // progressBar1
+            // bgwRecordsAdding
             // 
-            this.progressBar1.Location = new System.Drawing.Point(14, 398);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(296, 23);
-            this.progressBar1.Step = 1;
-            this.progressBar1.TabIndex = 20;
+            this.bgwRecordsAdding.WorkerReportsProgress = true;
+            this.bgwRecordsAdding.WorkerSupportsCancellation = true;
+            this.bgwRecordsAdding.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwRecordsAdding_DoWork);
+            this.bgwRecordsAdding.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgwRecordsAdding_ProgressChanged);
+            this.bgwRecordsAdding.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwRecordsAdding_RunWorkerCompleted);
+            // 
+            // bgwRecordsDeleting
+            // 
+            this.bgwRecordsDeleting.WorkerReportsProgress = true;
+            this.bgwRecordsDeleting.WorkerSupportsCancellation = true;
+            this.bgwRecordsDeleting.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwRecordsDeleting_DoWork);
+            this.bgwRecordsDeleting.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgwRecordsDeleting_ProgressChanged);
+            this.bgwRecordsDeleting.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwRecordsDeleting_RunWorkerCompleted);
             // 
             // mainForm
             // 
@@ -358,17 +402,21 @@
         private System.Windows.Forms.Button bResetSearch;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cmbSearchMethod;
-        private System.Windows.Forms.Label lbSearchTime;
         private System.Windows.Forms.Label lbSearchTime2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button bAddRndRecords;
         private System.Windows.Forms.TextBox tbDeleteRecords;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button bDeleteRecords;
         private System.Windows.Forms.TextBox tbAddRndRecords;
         private System.Windows.Forms.CheckBox cbVisualization;
         private System.Windows.Forms.Label lbItemCount;
         private System.Windows.Forms.Label lbDBRecordsCount;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Button bOpenTestForm;
+        private System.Windows.Forms.ProgressBar pbDBProgress;
+        private System.ComponentModel.BackgroundWorker bgwRecordsAdding;
+        private System.Windows.Forms.Button bCancelDeletingRecords;
+        private System.Windows.Forms.Button bCancelAddingRecords;
+        private System.ComponentModel.BackgroundWorker bgwRecordsDeleting;
+        private System.Windows.Forms.CheckBox cbAutoRebuild;
     }
 }
 

@@ -10,6 +10,7 @@ using System.Data.SqlTypes;
 using System.Configuration;
 using System.Xml.Linq;
 using System.IO;
+using System.ComponentModel;
 
 namespace University_ModernProgrammingTechnologies_Lab1
 {
@@ -17,11 +18,6 @@ namespace University_ModernProgrammingTechnologies_Lab1
     {
         public BearingParam bearingParam { get; private set; } = BearingParam.None;
         public Timer Timer { get; private set; }
-
-        public RadialBearingBinaryTree()
-        {
-            
-        }
 
         public override void Clear(ref BinaryTreeItem<RadialBearing> item)
         {
