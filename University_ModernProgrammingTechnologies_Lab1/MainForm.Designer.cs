@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.bRebuild = new System.Windows.Forms.Button();
+            this.bRunSQLProcedures = new System.Windows.Forms.Button();
             this.cbAutoRebuild = new System.Windows.Forms.CheckBox();
             this.bCancelDeletingRecords = new System.Windows.Forms.Button();
             this.bCancelAddingRecords = new System.Windows.Forms.Button();
@@ -71,6 +73,8 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.bRebuild);
+            this.splitContainer1.Panel1.Controls.Add(this.bRunSQLProcedures);
             this.splitContainer1.Panel1.Controls.Add(this.cbAutoRebuild);
             this.splitContainer1.Panel1.Controls.Add(this.bCancelDeletingRecords);
             this.splitContainer1.Panel1.Controls.Add(this.bCancelAddingRecords);
@@ -101,9 +105,33 @@
             this.splitContainer1.SplitterDistance = 317;
             this.splitContainer1.TabIndex = 0;
             // 
+            // bRebuild
+            // 
+            this.bRebuild.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.bRebuild.Location = new System.Drawing.Point(187, 162);
+            this.bRebuild.Name = "bRebuild";
+            this.bRebuild.Size = new System.Drawing.Size(119, 26);
+            this.bRebuild.TabIndex = 25;
+            this.bRebuild.Text = "Rebuild";
+            this.bRebuild.UseVisualStyleBackColor = true;
+            this.bRebuild.Click += new System.EventHandler(this.bRebuild_Click);
+            // 
+            // bRunSQLProcedures
+            // 
+            this.bRunSQLProcedures.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.bRunSQLProcedures.Location = new System.Drawing.Point(12, 523);
+            this.bRunSQLProcedures.Name = "bRunSQLProcedures";
+            this.bRunSQLProcedures.Size = new System.Drawing.Size(296, 26);
+            this.bRunSQLProcedures.TabIndex = 24;
+            this.bRunSQLProcedures.Text = "Run stored SQL procedures";
+            this.bRunSQLProcedures.UseVisualStyleBackColor = true;
+            this.bRunSQLProcedures.Click += new System.EventHandler(this.bRunSQLProcedures_Click);
+            // 
             // cbAutoRebuild
             // 
             this.cbAutoRebuild.AutoSize = true;
+            this.cbAutoRebuild.Checked = true;
+            this.cbAutoRebuild.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbAutoRebuild.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.cbAutoRebuild.Location = new System.Drawing.Point(12, 164);
             this.cbAutoRebuild.Name = "cbAutoRebuild";
@@ -417,6 +445,8 @@
         private System.Windows.Forms.Button bCancelAddingRecords;
         private System.ComponentModel.BackgroundWorker bgwRecordsDeleting;
         private System.Windows.Forms.CheckBox cbAutoRebuild;
+        private System.Windows.Forms.Button bRunSQLProcedures;
+        private System.Windows.Forms.Button bRebuild;
     }
 }
 

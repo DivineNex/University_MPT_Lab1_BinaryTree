@@ -10,6 +10,11 @@ using System.Windows.Forms;
 using System.Data.Common;
 using System.ComponentModel;
 using System.Threading;
+using System.Collections;
+using System.Windows.Forms.DataVisualization.Charting;
+using System.IO;
+using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 
 namespace University_ModernProgrammingTechnologies_Lab1
 {
@@ -111,6 +116,35 @@ namespace University_ModernProgrammingTechnologies_Lab1
             Int32 count = (Int32)myCommand.ExecuteScalar();
             connection.Close();
             return count; 
+        }
+
+        public void RunStoredSQLProcedures(params string[] paths)
+        {
+            connection.Open();
+
+            for (int i = 0; i < paths.Length; i++)
+            {
+                try
+                {
+                    string script = File.ReadAllText(paths[i]);
+
+                    IEnumerable<string> commandStrings = script.Split('\n');
+
+                    foreach (string commandString in commandStrings)
+                    {
+                        if (!string.IsNullOrWhiteSpace(commandString.Trim()))
+                        {
+                            using (var command = new SqlCommand(commandString, connection))
+                            {
+                                command.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                }
+                catch { continue; }   
+            }
+
+            connection.Close();
         }
     }
 }

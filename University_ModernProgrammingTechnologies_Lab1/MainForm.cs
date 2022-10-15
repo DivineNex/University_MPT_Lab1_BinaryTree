@@ -273,5 +273,17 @@ namespace University_ModernProgrammingTechnologies_Lab1
             if (cbAutoRebuild.Checked)
                 RebuildTree();
         }
+
+        private void bRunSQLProcedures_Click(object sender, EventArgs e)
+        {
+            _dBManager.RunStoredSQLProcedures("..\\..\\SQLQueries\\ExtralightSeriesOfRadialBearings.sql",
+                                               "..\\..\\SQLQueries\\SuperlightSeriesOfRadialBearings.sql");
+            RebuildTree();
+        }
+
+        private void bRebuild_Click(object sender, EventArgs e)
+        {
+            RebuildTree();
+        }
     }
 }
