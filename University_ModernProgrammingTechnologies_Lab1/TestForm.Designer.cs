@@ -28,22 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.lbIterationsCount = new System.Windows.Forms.Label();
             this.tbIterationsCount = new System.Windows.Forms.TextBox();
-            this.button5 = new System.Windows.Forms.Button();
+            this.bStartTest = new System.Windows.Forms.Button();
             this.cbShowCharts = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.label1 = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.label2 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.progressBar2 = new System.Windows.Forms.ProgressBar();
+            this.pbProgress = new System.Windows.Forms.ProgressBar();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -52,6 +49,10 @@
             this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
+            this.bStopTest = new System.Windows.Forms.Button();
+            this.bgwTester = new System.ComponentModel.BackgroundWorker();
+            this.lbTestStatus = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
             this.SuspendLayout();
@@ -75,17 +76,17 @@
             this.tbIterationsCount.TabIndex = 41;
             this.tbIterationsCount.Text = "1000";
             // 
-            // button5
+            // bStartTest
             // 
-            this.button5.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button5.Location = new System.Drawing.Point(12, 104);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(296, 26);
-            this.button5.TabIndex = 42;
-            this.button5.Text = "Start test";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.bStartTest.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.bStartTest.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.bStartTest.Location = new System.Drawing.Point(12, 104);
+            this.bStartTest.Name = "bStartTest";
+            this.bStartTest.Size = new System.Drawing.Size(207, 26);
+            this.bStartTest.TabIndex = 42;
+            this.bStartTest.Text = "Start test async";
+            this.bStartTest.UseVisualStyleBackColor = true;
+            this.bStartTest.Click += new System.EventHandler(this.button5_Click);
             // 
             // cbShowCharts
             // 
@@ -123,63 +124,36 @@
             // 
             // chart1
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
+            chartArea5.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea5);
             this.chart1.Location = new System.Drawing.Point(318, 32);
             this.chart1.Name = "chart1";
-            series1.BorderWidth = 3;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series1.IsVisibleInLegend = false;
-            series1.Name = "Series1";
-            this.chart1.Series.Add(series1);
+            series5.BorderWidth = 3;
+            series5.ChartArea = "ChartArea1";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series5.IsVisibleInLegend = false;
+            series5.Name = "Series1";
+            this.chart1.Series.Add(series5);
             this.chart1.Size = new System.Drawing.Size(399, 334);
             this.chart1.TabIndex = 46;
             this.chart1.Text = "chart1";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(12, 133);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(164, 20);
-            this.label1.TabIndex = 48;
-            this.label1.Text = "State: waiting for start";
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(146, 156);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(162, 23);
-            this.progressBar1.TabIndex = 49;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(12, 159);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(128, 20);
-            this.label2.TabIndex = 50;
-            this.label2.Text = "Current progress";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label6.Location = new System.Drawing.Point(12, 188);
+            this.label6.Location = new System.Drawing.Point(12, 191);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(123, 20);
+            this.label6.Size = new System.Drawing.Size(72, 20);
             this.label6.TabIndex = 52;
-            this.label6.Text = "Overall progress";
+            this.label6.Text = "Progress";
             // 
-            // progressBar2
+            // pbProgress
             // 
-            this.progressBar2.Location = new System.Drawing.Point(146, 185);
-            this.progressBar2.Name = "progressBar2";
-            this.progressBar2.Size = new System.Drawing.Size(162, 23);
-            this.progressBar2.TabIndex = 51;
+            this.pbProgress.Location = new System.Drawing.Point(90, 188);
+            this.pbProgress.Name = "pbProgress";
+            this.pbProgress.Size = new System.Drawing.Size(218, 23);
+            this.pbProgress.TabIndex = 51;
             // 
             // label7
             // 
@@ -238,16 +212,16 @@
             // 
             // chart2
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chart2.ChartAreas.Add(chartArea2);
+            chartArea6.Name = "ChartArea1";
+            this.chart2.ChartAreas.Add(chartArea6);
             this.chart2.Location = new System.Drawing.Point(723, 32);
             this.chart2.Name = "chart2";
-            series2.BorderWidth = 3;
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.IsVisibleInLegend = false;
-            series2.Name = "Series1";
-            this.chart2.Series.Add(series2);
+            series6.BorderWidth = 3;
+            series6.ChartArea = "ChartArea1";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series6.IsVisibleInLegend = false;
+            series6.Name = "Series1";
+            this.chart2.Series.Add(series6);
             this.chart2.Size = new System.Drawing.Size(399, 334);
             this.chart2.TabIndex = 59;
             this.chart2.Text = "chart2";
@@ -272,11 +246,56 @@
             this.label11.TabIndex = 61;
             this.label11.Text = "Half dividing method average (ms): 0";
             // 
+            // bStopTest
+            // 
+            this.bStopTest.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.bStopTest.Enabled = false;
+            this.bStopTest.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.bStopTest.Location = new System.Drawing.Point(225, 104);
+            this.bStopTest.Name = "bStopTest";
+            this.bStopTest.Size = new System.Drawing.Size(83, 26);
+            this.bStopTest.TabIndex = 62;
+            this.bStopTest.Text = "Stop";
+            this.bStopTest.UseVisualStyleBackColor = true;
+            this.bStopTest.Click += new System.EventHandler(this.bStopTest_Click);
+            // 
+            // bgwTester
+            // 
+            this.bgwTester.WorkerReportsProgress = true;
+            this.bgwTester.WorkerSupportsCancellation = true;
+            this.bgwTester.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwTester_DoWork);
+            this.bgwTester.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgwTester_ProgressChanged);
+            // 
+            // lbTestStatus
+            // 
+            this.lbTestStatus.AutoSize = true;
+            this.lbTestStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbTestStatus.Location = new System.Drawing.Point(12, 165);
+            this.lbTestStatus.Name = "lbTestStatus";
+            this.lbTestStatus.Size = new System.Drawing.Size(226, 20);
+            this.lbTestStatus.TabIndex = 63;
+            this.lbTestStatus.Text = "Current status: waiting for start";
+            // 
+            // button1
+            // 
+            this.button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button1.Location = new System.Drawing.Point(12, 136);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(207, 26);
+            this.button1.TabIndex = 64;
+            this.button1.Text = "Start test";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1129, 376);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.lbTestStatus);
+            this.Controls.Add(this.bStopTest);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.chart2);
@@ -286,15 +305,12 @@
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.progressBar2);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.pbProgress);
             this.Controls.Add(this.chart1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.cbShowCharts);
-            this.Controls.Add(this.button5);
+            this.Controls.Add(this.bStartTest);
             this.Controls.Add(this.tbIterationsCount);
             this.Controls.Add(this.lbIterationsCount);
             this.DoubleBuffered = true;
@@ -314,16 +330,13 @@
 
         private System.Windows.Forms.Label lbIterationsCount;
         private System.Windows.Forms.TextBox tbIterationsCount;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button bStartTest;
         private System.Windows.Forms.CheckBox cbShowCharts;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ProgressBar progressBar2;
+        private System.Windows.Forms.ProgressBar pbProgress;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
@@ -332,5 +345,9 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button bStopTest;
+        private System.ComponentModel.BackgroundWorker bgwTester;
+        private System.Windows.Forms.Label lbTestStatus;
+        private System.Windows.Forms.Button button1;
     }
 }
