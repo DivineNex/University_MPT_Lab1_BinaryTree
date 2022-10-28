@@ -14,12 +14,12 @@ using System.ComponentModel;
 
 namespace University_ModernProgrammingTechnologies_Lab1
 {
-    internal sealed class RadialBearingBinaryTree : BinaryTree<RadialBearing>
+    internal sealed class RadialBearingBinaryTree : BinaryTree
     {
         public BearingParam bearingParam { get; private set; } = BearingParam.None;
         public Timer Timer { get; private set; }
 
-        public override void Clear(ref BinaryTreeItem<RadialBearing> item)
+        public override void Clear(ref BinaryTreeItem item)
         {
             if (item.leftItem != null)
                 Clear(ref item.leftItem);
@@ -29,46 +29,23 @@ namespace University_ModernProgrammingTechnologies_Lab1
             item = null;
         }
 
-        public override void Insert(RadialBearing radialBearing)
+        public override void Insert(double value, string dbKey)
         {
-            BinaryTreeItem<RadialBearing> binaryTreeItem = new BinaryTreeItem<RadialBearing>(radialBearing);
-
             int paramValue = 0;
-
-            switch (bearingParam)
-            {
-                case BearingParam.d:
-                    paramValue = radialBearing.d;
-                    break;
-                case BearingParam.D:
-                    paramValue = radialBearing.D;
-                    break;
-                case BearingParam.B:
-                    paramValue = radialBearing.B;
-                    break;
-                case BearingParam.C:
-                    paramValue = radialBearing.C;
-                    break;
-                case BearingParam.C0:
-                    paramValue = radialBearing.C0;
-                    break;
-                default:
-                    break;
-            }
 
             if (_rootItem == null)
             {
-                _rootItem = binaryTreeItem;
+                _rootItem = new BinaryTreeItem(value, dbKey);
                 ItemCount++;
                 _minValue = paramValue;
                 _maxValue = paramValue;
                 return;
             }
 
-            _Insert(_rootItem, binaryTreeItem);
+            _Insert(_rootItem, value, dbKey);
         }
 
-        public override void RemoveItem(ref BinaryTreeItem<RadialBearing> bearing)
+        public override void RemoveItem(ref BinaryTreeItem bearing)
         {
             if (bearing.Equals(bearing.parentItem?.leftItem))
                 bearing.parentItem.leftItem = null;
@@ -85,168 +62,96 @@ namespace University_ModernProgrammingTechnologies_Lab1
             ItemCount--;
         }
 
-        private void _RemoveItem(ref BinaryTreeItem<RadialBearing> bearing)
+        private void _RemoveItem(ref BinaryTreeItem bearing)
         {
             if (bearing.rightItem != null)
                 _RemoveItem(ref bearing.rightItem);
             if (bearing.leftItem != null)
                 _RemoveItem(ref bearing.leftItem);
 
-            BinaryTreeItem<RadialBearing> copyBearing = bearing;
+            BinaryTreeItem copyBearing = bearing;
 
             bearing.Dispose();
             bearing = null;
 
-            Insert(copyBearing.Item);
+            foreach (var key in copyBearing.dbKeys)
+                Insert(copyBearing.Value, key);
         }
 
-        public void Search(BinaryTreeItem<RadialBearing> item, int[] values, params BearingParam[] bearingParams)
+        public void Search(BinaryTreeItem item, double value)
         {
-            if (values.Length == bearingParams.Length)
-            {
-                for (int i = 0; i < bearingParams.Length; i++)
-                {
-                    int bearingValue = 0;
-
-                    switch (bearingParams[i])
-                    {
-                        case BearingParam.d:
-                            bearingValue = item.Item.d;
-                            break;
-                        case BearingParam.D:
-                            bearingValue = item.Item.D;
-                            break;
-                        case BearingParam.B:
-                            bearingValue = item.Item.B;
-                            break;
-                        case BearingParam.C:
-                            bearingValue = item.Item.C;
-                            break;
-                        case BearingParam.C0:
-                            bearingValue = item.Item.d;
-                            break;
-                    }
-
-                    if (bearingValue == values[i])
-                    {
-                        item.FoundBySearch = true;
-                        return;
-                    }
-                        
-                }
-
-                if (item.leftItem != null)
-                    Search(item.leftItem, values, bearingParams);
-                if (item.rightItem != null)
-                    Search(item.rightItem, values, bearingParams);
-            }
-        }
-
-        public void SearchByHalfDividing(BinaryTreeItem<RadialBearing> item, int value, BearingParam bearingParam)
-        {
-            int bearingValue = 0;
-            switch (bearingParam)
-            {
-                case BearingParam.d:
-                    bearingValue = item.Item.d;
-                    break;
-                case BearingParam.D:
-                    bearingValue = item.Item.D;
-                    break;
-                case BearingParam.B:
-                    bearingValue = item.Item.B;
-                    break;
-                case BearingParam.C:
-                    bearingValue = item.Item.C;
-                    break;
-                case BearingParam.C0:
-                    bearingValue = item.Item.d;
-                    break;
-            }
-
-            if (bearingValue == value)
+            if (item.Value == value)
             {
                 item.FoundBySearch = true;
                 return;
             }
 
-            if (bearingValue < value)
+            if (item.leftItem != null)
+                Search(item.leftItem, value);
+            if (item.rightItem != null)
+                Search(item.rightItem, value);
+        }
+
+        public void SearchByHalfDividing(BinaryTreeItem item, double value)
+        {
+            if (item.Value == value)
+            {
+                item.FoundBySearch = true;
+                return;
+            }
+            if (item.Value < value)
             {
                 if (item.rightItem != null)
-                    SearchByHalfDividing(item.rightItem, value, bearingParam);
+                    SearchByHalfDividing(item.rightItem, value);
             }
-            else if (bearingValue > value)
+            else if (item.Value > value)
             {
                 if (item.leftItem != null)
-                    SearchByHalfDividing(item.leftItem, value, bearingParam);
+                    SearchByHalfDividing(item.leftItem, value);
             }
         }
 
-        private protected override void _Insert(BinaryTreeItem<RadialBearing> currentBearing, BinaryTreeItem<RadialBearing> newBearing)
+        private protected override void _Insert(BinaryTreeItem currentBearing, double value, string dbKey)
         {
-            int currentBearingParamValue = 0;
-            int newBearingParamValue = 0;
-
-            switch (bearingParam)
-            {
-                case BearingParam.d:
-                    currentBearingParamValue = currentBearing.Item.d;
-                    newBearingParamValue = newBearing.Item.d;
-                    break;
-                case BearingParam.D:
-                    currentBearingParamValue = currentBearing.Item.D;
-                    newBearingParamValue = newBearing.Item.D;
-                    break;
-                case BearingParam.B:
-                    currentBearingParamValue = currentBearing.Item.B;
-                    newBearingParamValue = newBearing.Item.B;
-                    break;
-                case BearingParam.C:
-                    currentBearingParamValue = currentBearing.Item.C;
-                    newBearingParamValue = newBearing.Item.C;
-                    break;
-                case BearingParam.C0:
-                    currentBearingParamValue = currentBearing.Item.C0;
-                    newBearingParamValue = newBearing.Item.C0;
-                    break;
-                default:
-                    break;
-            }
+            double currentBearingParamValue = currentBearing.Value;
+            double newBearingParamValue = value;
 
             if (newBearingParamValue < currentBearingParamValue)
             {
                 if (currentBearing.leftItem == null)
                 {
-                    currentBearing.leftItem = newBearing;
-                    newBearing.parentItem = currentBearing;
+                    BinaryTreeItem newItem = new BinaryTreeItem(value, dbKey);
+                    currentBearing.leftItem = newItem;
+                    newItem.parentItem = currentBearing;
                     ItemCount++;
                 }
                 else 
-                    _Insert(currentBearing.leftItem, newBearing);
+                    _Insert(currentBearing.leftItem, value, dbKey);
             }
             else if (newBearingParamValue > currentBearingParamValue)
             {
                 if (currentBearing.rightItem == null)
                 {
-                    currentBearing.rightItem = newBearing;
-                    newBearing.parentItem = currentBearing;
+                    BinaryTreeItem newItem = new BinaryTreeItem(value, dbKey);
+                    currentBearing.rightItem = newItem;
+                    newItem.parentItem = currentBearing;
                     ItemCount++;
                 }
                 else
-                    _Insert(currentBearing.rightItem, newBearing);
+                    _Insert(currentBearing.rightItem, value, dbKey);
             }
             else
             {
-                //MessageBox.Show(ELEMENT_EXIST_MESSAGE);
+                currentBearing.dbKeys.Add(dbKey);
             }
 
             if (newBearingParamValue < _minValue)
             {
-                _minValue = newBearingParamValue;
+                _minValue = value;
             }
             else if (newBearingParamValue > _maxValue)
             {
-                _maxValue = newBearingParamValue;
+                _maxValue = value;
             }
         }
 
@@ -277,6 +182,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
             {
                 while (oReader.Read())
                 {
+                    string key = oReader["Id"].ToString();
                     RadialBearing radialBearing = new RadialBearing(oReader["Designation"].ToString(),
                                                                     Convert.ToInt32(oReader["Din"]),
                                                                     Convert.ToInt32(oReader["Dex"]),
@@ -284,14 +190,31 @@ namespace University_ModernProgrammingTechnologies_Lab1
                                                                     Convert.ToInt32(oReader["C"]),
                                                                     Convert.ToInt32(oReader["C0"]));
 
-                    Insert(radialBearing);
+                    switch (param)
+                    {
+                        case BearingParam.d:
+                            Insert(radialBearing.d, key);
+                            break;
+                        case BearingParam.D:
+                            Insert(radialBearing.D, key);
+                            break;
+                        case BearingParam.B:
+                            Insert(radialBearing.B, key);
+                            break;
+                        case BearingParam.C:
+                            Insert(radialBearing.C, key);
+                            break;
+                        case BearingParam.C0:
+                            Insert(radialBearing.C0, key);
+                            break;
+                    }
                 }
 
                 connection.Close();
             }
         }
 
-        public void ResetSearch(BinaryTreeItem<RadialBearing> item)
+        public void ResetSearch(BinaryTreeItem item)
         {
             if (item != null)
                 item.FoundBySearch = false;

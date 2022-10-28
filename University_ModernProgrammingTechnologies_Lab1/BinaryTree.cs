@@ -7,30 +7,30 @@ using System.Windows.Forms;
 
 namespace University_ModernProgrammingTechnologies_Lab1
 {
-    internal abstract class BinaryTree<T>
+    internal abstract class BinaryTree
     {
         private protected const string ELEMENT_EXIST_MESSAGE = "The element is already in the tree";
-        private protected BinaryTreeItem<T> _rootItem;
-        private protected int _maxValue = Int32.MinValue;
-        private protected int _minValue = Int32.MaxValue;
+        private protected BinaryTreeItem _rootItem;
+        private protected double _maxValue = Int32.MinValue;
+        private protected double _minValue = Int32.MaxValue;
 
-        public int MaxValue { get { return _maxValue; } private protected set { _maxValue = value; } }
-        public int MinValue { get { return _minValue; } private protected set { _minValue = value; } }
+        public double MaxValue { get { return _maxValue; } private protected set { _maxValue = value; } }
+        public double MinValue { get { return _minValue; } private protected set { _minValue = value; } }
 
         public int ItemCount { get; private protected set; } = 0;
-        public BinaryTreeItem<T> RootItem { get { return _rootItem; } }
+        public BinaryTreeItem RootItem { get { return _rootItem; } }
 
         public BinaryTree()
         {
             _rootItem = null;
         }
 
-        public abstract void Insert(T item);
+        public abstract void Insert(double value, string dbKey);
 
-        private protected abstract void _Insert(BinaryTreeItem<T> currentItem, BinaryTreeItem<T> newItem);
+        private protected abstract void _Insert(BinaryTreeItem currentItem, double value, string dbKey);
 
-        public abstract void RemoveItem(ref BinaryTreeItem<T> item);
+        public abstract void RemoveItem(ref BinaryTreeItem item);
 
-        public abstract void Clear(ref BinaryTreeItem<T> item);
+        public abstract void Clear(ref BinaryTreeItem item);
     }
 }

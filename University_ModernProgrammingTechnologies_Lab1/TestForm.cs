@@ -49,12 +49,15 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         private void button5_Click(object sender, EventArgs e)
         {
+            chart1.Series[0].Points.Clear();
+            chart2.Series[0].Points.Clear();
+
             if (!bgwTester.IsBusy)
                 bgwTester.RunWorkerAsync();
             bStopTest.Enabled = true;
         }
 
-        private void TestAsync(int iterationCount, BearingParam param, BackgroundWorker worker, DoWorkEventArgs e)
+        private void TestAsync(int iterationCount, BackgroundWorker worker, DoWorkEventArgs e)
         {
             if (InvokeRequired)
             {
@@ -84,38 +87,24 @@ namespace University_ModernProgrammingTechnologies_Lab1
                         e.Cancel = true;
                         return;
                     }
-                      
-                    int value = rnd.Next(_mainForm.BinaryTree.MaxValue);
+
+                    double value = rnd.NextDouble()
+                        * (_mainForm.BinaryTree.MaxValue - _mainForm.BinaryTree.MinValue)
+                        + _mainForm.BinaryTree.MinValue;
                     stopwatch.Start();
 
-                    switch (param)
-                    {
-                        case BearingParam.d:
-                            _mainForm.BinaryTree.Search(_mainForm.BinaryTree.RootItem, new int[] { value }, BearingParam.d);
-                            break;
-                        case BearingParam.D:
-                            _mainForm.BinaryTree.Search(_mainForm.BinaryTree.RootItem, new int[] { value }, BearingParam.D);
-                            break;
-                        case BearingParam.B:
-                            _mainForm.BinaryTree.Search(_mainForm.BinaryTree.RootItem, new int[] { value }, BearingParam.B);
-                            break;
-                        case BearingParam.C:
-                            _mainForm.BinaryTree.Search(_mainForm.BinaryTree.RootItem, new int[] { value }, BearingParam.C);
-                            break;
-                        case BearingParam.C0:
-                            _mainForm.BinaryTree.Search(_mainForm.BinaryTree.RootItem, new int[] { value }, BearingParam.C0);
-                            break;
-                    }
+                    _mainForm.BinaryTree.Search(_mainForm.BinaryTree.RootItem, value);
 
                     stopwatch.Stop();
 
                     if (InvokeRequired)
                         this.Invoke(new Action(() => chart1.Series[0].Points.AddXY(i, stopwatch.ElapsedTicks)));
-                    
+
                     sum1InTicks += stopwatch.ElapsedTicks;
                     stopwatch.Reset();
 
-                    worker.ReportProgress(i * 100 / res);
+                    if (i % 10 == 0)
+                        worker.ReportProgress(i * 100 / res);
                 }
                 stopwatchInMs.Stop();
                 sum1InMs = stopwatchInMs.ElapsedMilliseconds;
@@ -127,38 +116,28 @@ namespace University_ModernProgrammingTechnologies_Lab1
                 stopwatchInMs.Start();
                 for (int i = 1; i <= res; i++)
                 {
-                    int value = rnd.Next(_mainForm.BinaryTree.MaxValue);
+                    if (worker.CancellationPending)
+                    {
+                        e.Cancel = true;
+                        return;
+                    }
+
+                    double value = rnd.NextDouble() 
+                        * (_mainForm.BinaryTree.MaxValue - _mainForm.BinaryTree.MinValue) 
+                        + _mainForm.BinaryTree.MinValue;
                     stopwatch.Start();
 
-                    switch (param)
-                    {
-                        case BearingParam.d:
-                            _mainForm.BinaryTree.SearchByHalfDividing(_mainForm.BinaryTree.RootItem, value, BearingParam.d);
-                            break;
-                        case BearingParam.D:
-                            _mainForm.BinaryTree.SearchByHalfDividing(_mainForm.BinaryTree.RootItem, value, BearingParam.D);
-                            break;
-                        case BearingParam.B:
-                            _mainForm.BinaryTree.SearchByHalfDividing(_mainForm.BinaryTree.RootItem, value, BearingParam.B);
-                            break;
-                        case BearingParam.C:
-                            _mainForm.BinaryTree.SearchByHalfDividing(_mainForm.BinaryTree.RootItem, value, BearingParam.C);
-                            break;
-                        case BearingParam.C0:
-                            _mainForm.BinaryTree.SearchByHalfDividing(_mainForm.BinaryTree.RootItem, value, BearingParam.C0);
-                            break;
-                    }
+                    _mainForm.BinaryTree.SearchByHalfDividing(_mainForm.BinaryTree.RootItem, value);
 
                     stopwatch.Stop();
                     if (InvokeRequired)
-                    {
                         this.Invoke(new Action(() => chart2.Series[0].Points.AddXY(i, stopwatch.ElapsedTicks)));
-                    }
 
                     sum2InTicks += stopwatch.ElapsedTicks;
                     stopwatch.Reset();
 
-                    worker.ReportProgress(i * 100 / res);
+                    if (i % 10 == 0)
+                        worker.ReportProgress(i * 100 / res);
                 }
                 stopwatchInMs.Stop();
                 sum2InMs = stopwatchInMs.ElapsedMilliseconds;
@@ -176,8 +155,6 @@ namespace University_ModernProgrammingTechnologies_Lab1
                     this.Invoke(new Action(() => label7.Text = $"Speed difference (ratio): {Math.Round((double)sum1InMs / (double)sum2InMs, 3)}"));
                     this.Invoke(new Action(() => lbTestStatus.Text = "Current status: waiting for start"));
                 }
-
-                
             }
         }
 
@@ -202,27 +179,12 @@ namespace University_ModernProgrammingTechnologies_Lab1
                 stopwatchInMs.Start();
                 for (int i = 0; i < res; i++)
                 {
-                    int value = rnd.Next(_mainForm.BinaryTree.MaxValue);
+                    double value = rnd.Next() 
+                        * (_mainForm.BinaryTree.MaxValue - _mainForm.BinaryTree.MinValue) 
+                        + _mainForm.BinaryTree.MinValue;
                     stopwatch.Start();
 
-                    switch (param)
-                    {
-                        case BearingParam.d:
-                            _mainForm.BinaryTree.Search(_mainForm.BinaryTree.RootItem, new int[] { value }, BearingParam.d);
-                            break;
-                        case BearingParam.D:
-                            _mainForm.BinaryTree.Search(_mainForm.BinaryTree.RootItem, new int[] { value }, BearingParam.D);
-                            break;
-                        case BearingParam.B:
-                            _mainForm.BinaryTree.Search(_mainForm.BinaryTree.RootItem, new int[] { value }, BearingParam.B);
-                            break;
-                        case BearingParam.C:
-                            _mainForm.BinaryTree.Search(_mainForm.BinaryTree.RootItem, new int[] { value }, BearingParam.C);
-                            break;
-                        case BearingParam.C0:
-                            _mainForm.BinaryTree.Search(_mainForm.BinaryTree.RootItem, new int[] { value }, BearingParam.C0);
-                            break;
-                    }
+                    _mainForm.BinaryTree.Search(_mainForm.BinaryTree.RootItem, value);
 
                     stopwatch.Stop();
 
@@ -240,27 +202,13 @@ namespace University_ModernProgrammingTechnologies_Lab1
                 stopwatchInMs.Start();
                 for (int i = 0; i < res; i++)
                 {
-                    int value = rnd.Next(_mainForm.BinaryTree.MaxValue);
+                    double value = rnd.Next()
+                        * (_mainForm.BinaryTree.MaxValue - _mainForm.BinaryTree.MinValue)
+                        + _mainForm.BinaryTree.MinValue;
+
                     stopwatch.Start();
 
-                    switch (param)
-                    {
-                        case BearingParam.d:
-                            _mainForm.BinaryTree.SearchByHalfDividing(_mainForm.BinaryTree.RootItem, value, BearingParam.d);
-                            break;
-                        case BearingParam.D:
-                            _mainForm.BinaryTree.SearchByHalfDividing(_mainForm.BinaryTree.RootItem, value, BearingParam.D);
-                            break;
-                        case BearingParam.B:
-                            _mainForm.BinaryTree.SearchByHalfDividing(_mainForm.BinaryTree.RootItem, value, BearingParam.B);
-                            break;
-                        case BearingParam.C:
-                            _mainForm.BinaryTree.SearchByHalfDividing(_mainForm.BinaryTree.RootItem, value, BearingParam.C);
-                            break;
-                        case BearingParam.C0:
-                            _mainForm.BinaryTree.SearchByHalfDividing(_mainForm.BinaryTree.RootItem, value, BearingParam.C0);
-                            break;
-                    }
+                    _mainForm.BinaryTree.SearchByHalfDividing(_mainForm.BinaryTree.RootItem, value);
 
                     stopwatch.Stop();
                     chart2.Series[0].Points.AddXY(i, stopwatch.ElapsedTicks);
@@ -289,40 +237,9 @@ namespace University_ModernProgrammingTechnologies_Lab1
             var backgroundWorker = sender as BackgroundWorker;
 
             if (Int32.TryParse(tbIterationsCount.Text, out int res))
-            {
-                BearingParam param = new BearingParam();
-
-                byte selectedIndex = 0;
-                if (InvokeRequired)
-                {
-                    this.Invoke(new Action(() => selectedIndex = (byte)cmbParam.SelectedIndex));
-                }
-
-                switch (selectedIndex)
-                {
-                    case 0:
-                        param = BearingParam.d;
-                        break;
-                    case 1:
-                        param = BearingParam.D;
-                        break;
-                    case 2:
-                        param = BearingParam.B;
-                        break;
-                    case 3:
-                        param = BearingParam.C;
-                        break;
-                    case 4:
-                        param = BearingParam.C0;
-                        break;
-                }
-
-                TestAsync(res, param, backgroundWorker, e);
-            }
+                TestAsync(res, backgroundWorker, e);
             else
-            {
                 bgwTester.CancelAsync();
-            }
         }
 
         private void bgwTester_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -333,6 +250,9 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         private void button1_Click(object sender, EventArgs e)
         {
+            chart1.Series[0].Points.Clear();
+            chart2.Series[0].Points.Clear();
+
             if (Int32.TryParse(tbIterationsCount.Text, out int res))
             {
                 BearingParam param = new BearingParam();

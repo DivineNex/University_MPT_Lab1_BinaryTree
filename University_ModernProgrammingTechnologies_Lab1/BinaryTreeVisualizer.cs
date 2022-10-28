@@ -142,32 +142,13 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         private void RecalculateNodesPosition()
         {
-            int itemValue = 0;
+            double itemValue = 0;
 
             _width = BinaryTreeVisualizerNode.nodeSize * widthScale;
 
             for (int i = 0; i < _nodes.Count; i++)
             {
-                switch (Tree.bearingParam)
-                {
-                    case BearingParam.d:
-                        itemValue = _nodes[i].TreeItem.Item.d;
-                        break;
-                    case BearingParam.D:
-                        itemValue = _nodes[i].TreeItem.Item.D;
-                        break;
-                    case BearingParam.B:
-                        itemValue = _nodes[i].TreeItem.Item.B;
-                        break;
-                    case BearingParam.C:
-                        itemValue = _nodes[i].TreeItem.Item.C;
-                        break;
-                    case BearingParam.C0:
-                        itemValue = _nodes[i].TreeItem.Item.C0;
-                        break;
-                    default:
-                        break;
-                }
+                itemValue = _nodes[i].TreeItem.Value;
 
                 _nodes[i].X = InterpolateX(itemValue, Tree.MinValue, Tree.MaxValue, 0, _width) + Parent.Width / 2;
                 if(i == 0)
@@ -227,9 +208,9 @@ namespace University_ModernProgrammingTechnologies_Lab1
             UpdateAndDraw();
         }
 
-        private int InterpolateX(int x, int x1, int x2, int y1, int y2)
+        private int InterpolateX(double x, double x1, double x2, double y1, double y2)
         {
-            return y1 + (y2 - y1) * (x - x1) / (x2 - x1);
+            return (int)(y1 + (y2 - y1) * (x - x1) / (x2 - x1));
         }
 
         public void DrawNodeInfoPanel(BinaryTreeVisualizerNode node)
@@ -274,28 +255,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
                 Font font = new Font(Name = "Arial", BinaryTreeVisualizerNode.nodeSize / 3.5f);
 
-                string valueString = _nodes[i].TreeItem.Item.d.ToString();
-                switch (Tree.bearingParam) 
-                {
-                    case BearingParam.d:
-                        valueString = _nodes[i].TreeItem.Item.d.ToString();
-                        break;
-                    case BearingParam.D:
-                        valueString = _nodes[i].TreeItem.Item.D.ToString();
-                        break;
-                    case BearingParam.B:
-                        valueString = _nodes[i].TreeItem.Item.B.ToString();
-                        break;
-                    case BearingParam.C:
-                        valueString = _nodes[i].TreeItem.Item.C.ToString();
-                        break;
-                    case BearingParam.C0:
-                        valueString = _nodes[i].TreeItem.Item.C0.ToString();
-                        break;
-                    default:
-                        break;
-                }
-
+                string valueString = _nodes[i].TreeItem.Value.ToString();
 
                 SizeF stringSize = graphics.MeasureString(valueString, font);
                 PointF stringLocation = new PointF(_nodes[i].X + xOffset + BinaryTreeVisualizerNode.nodeSize / 2 - stringSize.Width / 2,
@@ -312,12 +272,15 @@ namespace University_ModernProgrammingTechnologies_Lab1
             rect.X = _nodeInfoPanelShowing.X + BinaryTreeVisualizerNode.nodeSize + xOffset;
             rect.Y = _nodeInfoPanelShowing.Y - rect.Height + yOffset;
 
-            string str = $"Designation: {_nodeInfoPanelShowing.TreeItem.Item.Designation}\n" +
-                $"d: {_nodeInfoPanelShowing.TreeItem.Item.d}\n" +
-                $"D: {_nodeInfoPanelShowing.TreeItem.Item.D}\n" +
-                $"B: {_nodeInfoPanelShowing.TreeItem.Item.B}\n" +
-                $"C: {_nodeInfoPanelShowing.TreeItem.Item.C}\n" +
-                $"C0: {_nodeInfoPanelShowing.TreeItem.Item.C0}";
+            string str = $"DataBase keys:\n";
+            foreach (var key in node.TreeItem.dbKeys)
+                str += $"{key}\n";
+            //string str = $"Designation: {_nodeInfoPanelShowing.TreeItem.Item.Designation}\n" +
+            //    $"d: {_nodeInfoPanelShowing.TreeItem.Item.d}\n" +
+            //    $"D: {_nodeInfoPanelShowing.TreeItem.Item.D}\n" +
+            //    $"B: {_nodeInfoPanelShowing.TreeItem.Item.B}\n" +
+            //    $"C: {_nodeInfoPanelShowing.TreeItem.Item.C}\n" +
+            //    $"C0: {_nodeInfoPanelShowing.TreeItem.Item.C0}";
 
             Font font = new Font(Name = "Arial", BinaryTreeVisualizerNode.nodeSize / 4f);
             Point stringLocation = new Point(rect.X + rect.Width / 12, rect.Y + rect.Height / 10);

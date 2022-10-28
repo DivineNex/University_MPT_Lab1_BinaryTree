@@ -16,9 +16,9 @@ namespace University_ModernProgrammingTechnologies_Lab1
 
         public int Y { get; set; }
 
-        private BinaryTreeItem<RadialBearing> _treeItem;
+        private BinaryTreeItem _treeItem;
 
-        public BinaryTreeItem<RadialBearing> TreeItem
+        public BinaryTreeItem TreeItem
         {
             get { return _treeItem; }
             private set { _treeItem = value; }
@@ -32,7 +32,7 @@ namespace University_ModernProgrammingTechnologies_Lab1
         private bool cursorOnIt = false;
         private BinaryTreeVisualizer _visualizer;
 
-        public BinaryTreeVisualizerNode(BinaryTreeVisualizer visualizer, BinaryTreeItem<RadialBearing> treeItem, BinaryTreeVisualizerNode parentNode)
+        public BinaryTreeVisualizerNode(BinaryTreeVisualizer visualizer, BinaryTreeItem treeItem, BinaryTreeVisualizerNode parentNode)
         {
             _visualizer = visualizer;
             Size = new Size(nodeSize, nodeSize);

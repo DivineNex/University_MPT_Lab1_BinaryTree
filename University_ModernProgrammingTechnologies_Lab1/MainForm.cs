@@ -73,39 +73,12 @@ namespace University_ModernProgrammingTechnologies_Lab1
             {
                 var stopwatch = new Stopwatch();
                 stopwatch.Start();
-                switch (cmbParam.SelectedIndex)
-                {
-                    case 0:
-                        if (cmbSearchMethod.SelectedIndex == 0)
-                            _binaryTree.Search(_binaryTree.RootItem, new int[] { res }, BearingParam.d);
-                        else if (cmbSearchMethod.SelectedIndex == 1)
-                            _binaryTree.SearchByHalfDividing(_binaryTree.RootItem, res, BearingParam.d);
-                        break;
-                    case 1:
-                        if (cmbSearchMethod.SelectedIndex == 0)
-                            _binaryTree.Search(_binaryTree.RootItem, new int[] { res }, BearingParam.D);
-                        else if (cmbSearchMethod.SelectedIndex == 1)
-                            _binaryTree.SearchByHalfDividing(_binaryTree.RootItem, res, BearingParam.D);
-                        break;
-                    case 2:
-                        if (cmbSearchMethod.SelectedIndex == 0)
-                            _binaryTree.Search(_binaryTree.RootItem, new int[] { res }, BearingParam.B);
-                        else if (cmbSearchMethod.SelectedIndex == 1)
-                            _binaryTree.SearchByHalfDividing(_binaryTree.RootItem, res, BearingParam.B);
-                        break;
-                    case 3:
-                        if (cmbSearchMethod.SelectedIndex == 0)
-                            _binaryTree.Search(_binaryTree.RootItem, new int[] { res }, BearingParam.C);
-                        else if (cmbSearchMethod.SelectedIndex == 1)
-                            _binaryTree.SearchByHalfDividing(_binaryTree.RootItem, res, BearingParam.C);
-                        break;
-                    case 4:
-                        if (cmbSearchMethod.SelectedIndex == 0)
-                            _binaryTree.Search(_binaryTree.RootItem, new int[] { res }, BearingParam.C0);
-                        else if (cmbSearchMethod.SelectedIndex == 1)
-                            _binaryTree.SearchByHalfDividing(_binaryTree.RootItem, res, BearingParam.C0);
-                        break;
-                }
+
+                if (cmbSearchMethod.SelectedIndex == 0)
+                    _binaryTree.Search(_binaryTree.RootItem, res);
+                else if (cmbSearchMethod.SelectedIndex == 1)
+                    _binaryTree.SearchByHalfDividing(_binaryTree.RootItem, res);
+
                 stopwatch.Stop();
                 lbSearchTime2.Text = $"Last search time (ticks): {stopwatch.ElapsedTicks}";
                 stopwatch.Reset();
